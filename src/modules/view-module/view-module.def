@@ -1,0 +1,6 @@
+; plugins.def : 声明 DLL 的模块参数。
+
+LIBRARY      "view.mol"
+EXPORTS
+    ; 此处可以是显式导出
+    modules_createOjbect @1

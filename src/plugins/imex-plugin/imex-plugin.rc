@@ -1,0 +1,97 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 中文(中华人民共和国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// RCDATA
+//
+
+IDB_PNG_ICON            RCDATA                  "icon.png"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_TRANS_TITLE_S       "日期\t金额\t账户\t转至账户\t分类\t人员\t备注"
+    IDS_TRANS_TITLE_C       """日期"",""金额"",""账户"",""转至账户"",""分类"",""人员"",""备注"""
+    IDS_TRANS_TITLE_EXCEL_C "日期,金额,账户,转至账户,分类,人员,备注"
+    IDS_EXPORT_WAIT         "导出中，请稍候。。。"
+    IDS_ERR_DB_CONNECTION   "数据库打开失败。"
+    IDS_ERR_FILE_OPEN       "文件打开失败。"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_EXPORT_RESULT       "导出成功，共导出%d条交易记录。"
+    IDS_CASH                "现金"
+    IDS_ERR_FUNC_INCOMPLETE "功能尚未完成！"
+    IDS_ERR_UNK_FORMAT      "文本编码格式不支持，无法继续。"
+    IDS_IMPORT_WAIT         "导入中，请稍候。。。"
+    IDS_IMPORT_ANALYSIS     "文件分析"
+    IDS_ERR_CSV_FORMAT      "请确认明细记录文件格式是否正确。"
+    IDS_IMPORT_RESULT       "导入成功，共导入%d条交易记录。"
+    IDS_ERR_IMPORT_FORMAT   "无法识别的文件格式，无法继续。"
+END
+
+#endif    // 中文(中华人民共和国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
