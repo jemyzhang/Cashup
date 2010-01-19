@@ -1,0 +1,9 @@
+; db-engine.def : 声明 DLL 的模块参数。
+
+LIBRARY      "common-ui"
+
+EXPORTS
+    ; 此处可以是显式导出
+	MzPasswordDialog @1
+	MzCalendarDialog @2
+	MzCalculatorDialog @3

@@ -19,12 +19,13 @@
 		<Configuration
 			Name="Debug|M8SDK (ARMV4I)"
 			OutputDirectory="$(ProjectDir)bin"
-			IntermediateDirectory="$(ProjectDir)obj/$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)obj\plugins\$(ProjectName)\$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="copy $(ProjectDir)src\commondef.h $(ProjectDir)include"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -65,7 +66,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,6.00 /MACHINE:THUMB"
-				OutputFile="$(TargetDir)/Cashup.exe"
+				OutputFile="$(ProjectDir)bin/Cashup.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="lib;..\MzCommon\libs"
 				DelayLoadDLLs="$(NOINHERIT)"
@@ -94,7 +95,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(ProjectDir)\src\commondef.h $(ProjectDir)include"
+				CommandLine=""
 			/>
 			<DeploymentTool
 				ForceDirty="-1"
@@ -114,6 +115,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="copy $(ProjectDir)src\commondef.h $(ProjectDir)include"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -185,7 +187,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(ProjectDir)src\commondef.h $(ProjectDir)include"
+				CommandLine="$(SolutionDir)upx.exe $(TargetPath)"
 			/>
 			<DeploymentTool
 				ForceDirty="-1"

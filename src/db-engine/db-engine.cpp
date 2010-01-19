@@ -2,7 +2,7 @@
 //
 
 #include "db-engine.h"
-#include "ui_password.h"
+#include <common-ui.h>
 #include "resource.h"
 #include <MzCommon.h>
 using namespace MzCommon;
@@ -19,12 +19,9 @@ static LPWSTR g_dbpath = 0;
 #define DEFAULT_DB		L"\\Disk\\Programs\\M8Cash\\cash.db"
 #endif
 
-//#pragma comment(lib,"libsqlitece_s.lib")
-#ifdef _DEBUG
-#pragma comment(lib,"MzCommond.lib")
-#else
 #pragma comment(lib,"MzCommon.lib")
-#endif
+#pragma comment(lib,"common-ui.lib")
+#pragma comment(lib,"mzfc.lib")
 
 static HINSTANCE lngres = 0;
 
@@ -94,18 +91,9 @@ db_connection* createDatabaseOjbect(){
 		g_bencypt = false;
 		if(!g_pldb->checkpwd(g_password,g_password_len)){
 			g_bencypt = true;
-			Ui_PasswordWnd dlg;
-			dlg.setMode(0);
-			RECT rcWork = MzGetWorkArea();
-			dlg.Create(rcWork.left, rcWork.top + RECT_HEIGHT(rcWork)/4, RECT_WIDTH(rcWork), RECT_HEIGHT(rcWork)*3/4,
-				0, 0, WS_POPUP);
-			// set the animation of the window
-			dlg.SetAnimateType_Show(MZ_ANIMTYPE_SCROLL_BOTTOM_TO_TOP_2);
-			dlg.SetAnimateType_Hide(MZ_ANIMTYPE_SCROLL_TOP_TO_BOTTOM_1);
 			bRet = false;
-			while(dlg.DoModal() == ID_OK){	//输入密码框获取密码
-				wchar_t *p = 0; int len = 0;
-				dlg.getPassword(&p,&len);
+			wchar_t *p = 0; int len = 0;
+			while(MzPasswordDialog(&p,&len)){	//输入密码框获取密码
 				if(g_pldb->checkpwd(p,len)){	//检查密码正确性
 					bRet = true;
 					if(len > 0){
@@ -150,18 +138,8 @@ void releaseDatabaseObject(){
 void DatabaseSetPassword(){
 	if(g_pldb == NULL) createDatabaseOjbect();
 
-	Ui_PasswordWnd dlg;
-	dlg.setMode(1);
-	RECT rcWork = MzGetWorkArea();
-	dlg.Create(rcWork.left, rcWork.top + RECT_HEIGHT(rcWork)/4, RECT_WIDTH(rcWork), RECT_HEIGHT(rcWork)*3/4,
-		0, 0, WS_POPUP);
-	// set the animation of the window
-	dlg.SetAnimateType_Show(MZ_ANIMTYPE_SCROLL_BOTTOM_TO_TOP_2);
-	dlg.SetAnimateType_Hide(MZ_ANIMTYPE_SCROLL_TOP_TO_BOTTOM_1);
-	
-	if(dlg.DoModal() == ID_OK){
-		wchar_t *p = 0; int len = 0;
-		dlg.getPassword(&p,&len);
+	wchar_t *p = 0; int len = 0;
+	if(MzPasswordDialog(&p,&len,0,1)){
 		if(g_pldb->encrypt(p,len)){
 			if(len != 0){
 				MzAutoMsgBoxEx(0,getLngResString(IDS_STR_PWD_SET_S).C_Str(),2000);

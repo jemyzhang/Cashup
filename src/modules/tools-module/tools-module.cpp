@@ -8,15 +8,10 @@
 using namespace MzCommon;
 #include <commondef.h>
 
-#ifdef _DEBUG
-#pragma comment(lib,"mzfc.lib")
-#pragma comment(lib,"MzCommond.lib")
-#pragma comment(lib,"pluginloaderd.lib")
-#else
 #pragma comment(lib,"mzfc.lib")
 #pragma comment(lib,"MzCommon.lib")
 #pragma comment(lib,"pluginloader.lib")
-#endif
+#pragma comment(lib,"common-ui.lib")
 
 Ui_ToolsWnd *pdlg = 0;
 LPWSTR name = 0;

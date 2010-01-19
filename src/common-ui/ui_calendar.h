@@ -1,0 +1,42 @@
+#pragma once
+#include <MzCommonDll.h>
+
+class UiGrid;
+class UiWeekBar;
+
+class COMMON_API Ui_CalendarWnd : public CMzWndEx 
+{
+	MZ_DECLARE_DYNAMIC(Ui_CalendarWnd);
+public:
+	Ui_CalendarWnd(void);
+	~Ui_CalendarWnd(void);
+public:
+    UiToolbar_Text m_Toolbar;
+	UiCaption m_CaptionHeader;
+	UiButton_Image m_BtnNext;
+	UiButton_Image m_BtnPre;
+	UiStatic m_YearMonth;
+	UiWeekBar *m_pWeekBar;
+	UiGrid *m_pCalendar;
+public:
+    void GetDate(int &y, int &m, int &d){
+        y = _year; m = _month; d = _day;
+    }
+	void SetDate(int y, int m, int d){
+		_year = y; _month = m; _day = d;
+	}
+protected:
+    // Initialization of the window (dialog)
+    virtual BOOL OnInitDialog();
+
+    // override the MZFC command handler
+    virtual void OnMzCommand(WPARAM wParam, LPARAM lParam);
+    // override the MZFC window messages handler
+    virtual LRESULT MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam);
+private:
+	void updateGrid();
+private:
+	int _year;
+	int _month;
+	int _day;
+};

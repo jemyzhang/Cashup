@@ -4,7 +4,17 @@ using namespace MzCommon;
 
 #include "resource.h"
 
-#pragma comment(lib,"mzfc.lib")
+class UiControlBackground :
+	public UiWin
+{
+public:
+	virtual void PaintWin(HDC hdcDst, RECT* prcWin, RECT* prcUpdate){
+		UiWin::PaintWin(hdcDst, prcWin, prcUpdate);
+		MzDrawGridPopupMenuBG_480(hdcDst,prcWin);
+	}
+};
+
+
 
 MZ_IMPLEMENT_DYNAMIC(Ui_PasswordWnd)
 
@@ -22,6 +32,7 @@ Ui_PasswordWnd::Ui_PasswordWnd(void)
 
 Ui_PasswordWnd::~Ui_PasswordWnd(void)
 {
+    delete m_pBackground;
 }
 
 void Ui_PasswordWnd::getPassword(wchar_t** p,int* plen){
@@ -42,8 +53,9 @@ BOOL Ui_PasswordWnd::OnInitDialog() {
 
     // Then init the controls & other things in the window
     int y = 10;
-	m_Background.SetPos(0, 0, GetWidth(), GetHeight() - MZM_HEIGHT_TEXT_TOOLBAR);
-	AddUiWin(&m_Background);
+    m_pBackground = new UiControlBackground;
+	m_pBackground->SetPos(0, 0, GetWidth(), GetHeight() - MZM_HEIGHT_TEXT_TOOLBAR);
+	AddUiWin(m_pBackground);
 
 	m_EdtPassword.SetPos(5, y, GetWidth() - 10, MZM_HEIGHT_SINGLELINE_EDIT);
     m_EdtPassword.SetMaxChars(32);
@@ -56,7 +68,7 @@ BOOL Ui_PasswordWnd::OnInitDialog() {
 	}else{
 	    m_EdtPassword.SetTip(getLngResString(IDS_STR_PWD_LOCKED).C_Str());
 	}
-    m_Background.AddChild(&m_EdtPassword);
+    m_pBackground->AddChild(&m_EdtPassword);
 
     m_Toolbar.SetPos(0, GetHeight() - MZM_HEIGHT_TEXT_TOOLBAR, GetWidth(), MZM_HEIGHT_TEXT_TOOLBAR);
     m_Toolbar.SetButton(0, true, true, getLngResString(IDS_STR_CANCEL).C_Str());

@@ -182,6 +182,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="$(SolutionDir)upx.exe $(TargetPath)"
 			/>
 			<DeploymentTool
 				ForceDirty="-1"

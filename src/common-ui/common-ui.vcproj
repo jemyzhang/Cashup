@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="search-module"
-	ProjectGUID="{474DCC09-6C0B-445B-9413-569E631A376D}"
-	RootNamespace="search-module"
+	Name="common-ui"
+	ProjectGUID="{1A0DCC5E-85A2-4D6C-9F4A-9CE4BCF3F8BE}"
+	RootNamespace="common-ui"
 	Keyword="MFCDLLProj"
 	TargetFrameworkVersion="196613"
 	>
@@ -26,6 +26,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="copy $(ProjectDir)common-ui.h $(SolutionDir)include"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -44,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
-				AdditionalIncludeDirectories="..\..\..\..\MzCommon\include;..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\MzCommon\include;..\..\include"
 				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_USRDLL;$(ARCHFAM);$(_ARCHFAM_);STANDARDSHELL_UI_MODEL"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
@@ -66,104 +67,16 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,6.00"
-				OutputFile="$(OutDir)\search.mol"
+				OutputFile="$(OutDir)/common-ui.dll"
 				LinkIncremental="2"
-				ModuleDefinitionFile=".\search-module.def"
+				AdditionalLibraryDirectories="..\..\..\MzCommon\libs"
+				ModuleDefinitionFile=".\common-ui.def"
 				GenerateDebugInformation="true"
 				StackReserveSize="65536"
 				StackCommitSize="4096"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary="$(SolutionDir)obj\modules\$(ProjectName)\$(PlatformName)\$(ConfigurationName)\search-module.lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCCodeSignTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-			<DeploymentTool
-				ForceDirty="-1"
-				RemoteDirectory="%CSIDL_PROGRAM_FILES%\Cashup\modules"
-				RegisterOutput="0"
-				AdditionalFiles=""
-			/>
-			<DebuggerTool
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release|M8SDK (ARMV4I)"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(SolutionDir)obj\modules\$(ProjectName)\$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
-			UseOfMFC="1"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE"
-				MkTypLibCompatible="false"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				ExecutionBucket="7"
-				AdditionalIncludeDirectories="..\..\..\..\MzCommon\include;..\..\..\include"
-				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_USRDLL;$(ARCHFAM);$(_ARCHFAM_);STANDARDSHELL_UI_MODEL"
-				RuntimeLibrary="0"
-				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				DebugInformationFormat="3"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE"
-				Culture="2052"
-				AdditionalIncludeDirectories="$(IntDir)"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalOptions=" /subsystem:windowsce,6.00"
-				AdditionalDependencies="coredll.lib corelibc.lib"
-				OutputFile="$(SolutionDir)bin\modules\search.mol"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\..\..\MzCommon\libs;..\..\..\lib"
-				ModuleDefinitionFile=".\search-module.def"
-				GenerateDebugInformation="false"
-				StackReserveSize="65536"
-				StackCommitSize="4096"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				ImportLibrary="$(SolutionDir)obj\modules\$(ProjectName)\$(PlatformName)\$(ConfigurationName)\search-module.lib"
+				ImportLibrary="$(SolutionDir)lib\common-uid.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -186,7 +99,98 @@
 			/>
 			<DeploymentTool
 				ForceDirty="-1"
-				RemoteDirectory="%CSIDL_PROGRAM_FILES%\Cashup\modules"
+				RemoteDirectory="%CSIDL_PROGRAM_FILES%\Cashup"
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|M8SDK (ARMV4I)"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)obj\$(ProjectName)\$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			UseOfMFC="1"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+				CommandLine="copy $(ProjectDir)common_ui.h $(SolutionDir)include&#x0D;&#x0A;copy $(ProjectDir)ui_password.h $(SolutionDir)include&#x0D;&#x0A;copy $(ProjectDir)UiImage.h $(SolutionDir)include&#x0D;&#x0A;copy $(ProjectDir)UiIconButton.h $(SolutionDir)include&#x0D;&#x0A;"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE"
+				MkTypLibCompatible="false"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				AdditionalIncludeDirectories="..\..\..\MzCommon\include;..\..\include"
+				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_USRDLL;$(ARCHFAM);$(_ARCHFAM_);STANDARDSHELL_UI_MODEL;COMMON_EXPORTS"
+				RuntimeLibrary="0"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE"
+				Culture="2052"
+				AdditionalIncludeDirectories="$(IntDir)"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions=" /subsystem:windowsce,6.00"
+				AdditionalDependencies="coredll.lib corelibc.lib"
+				OutputFile="$(SolutionDir)bin\common-ui.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\..\..\MzCommon\libs"
+				ModuleDefinitionFile=".\common-ui.def"
+				GenerateDebugInformation="false"
+				StackReserveSize="65536"
+				StackCommitSize="4096"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				ImportLibrary="$(SolutionDir)lib\common-ui.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="$(SolutionDir)upx.exe $(TargetPath)"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory="%CSIDL_PROGRAM_FILES%\Cashup"
 				RegisterOutput="0"
 				AdditionalFiles=""
 			/>
@@ -203,19 +207,35 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\search-module.cpp"
+				RelativePath=".\calcore.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\search-module.def"
+				RelativePath=".\common-ui.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\baseui\ui_base.cpp"
+				RelativePath=".\common-ui.def"
 				>
 			</File>
 			<File
-				RelativePath=".\ui_search.cpp"
+				RelativePath=".\ui_calculator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ui_calendar.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ui_password.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\UiIconButton.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\UiImage.cpp"
 				>
 			</File>
 		</Filter>
@@ -225,19 +245,35 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\Resource.h"
+				RelativePath=".\calcore.h"
 				>
 			</File>
 			<File
-				RelativePath=".\search-module.h"
+				RelativePath=".\common-ui.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\baseui\ui_base.h"
+				RelativePath=".\resource.h"
 				>
 			</File>
 			<File
-				RelativePath=".\ui_search.h"
+				RelativePath=".\ui_calculator.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ui_calendar.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ui_password.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UiIconButton.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UiImage.h"
 				>
 			</File>
 		</Filter>
@@ -247,11 +283,7 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
-				RelativePath=".\icon.png"
-				>
-			</File>
-			<File
-				RelativePath=".\search-module.rc"
+				RelativePath=".\res.rc"
 				>
 			</File>
 		</Filter>

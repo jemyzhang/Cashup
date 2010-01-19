@@ -26,6 +26,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="copy database.h $(SolutionDir)include&#x0D;&#x0A;copy db-engine.h $(SolutionDir)include"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -68,7 +69,7 @@
 				AdditionalOptions=" /subsystem:windowsce,6.00"
 				OutputFile="$(OutDir)/db-engine.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\..\MzCommon\libs"
+				AdditionalLibraryDirectories="..\..\lib;..\..\..\MzCommon\libs"
 				ModuleDefinitionFile=".\db-engine.def"
 				GenerateDebugInformation="true"
 				StackReserveSize="65536"
@@ -94,7 +95,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy database.h $(SolutionDir)include&#x0D;&#x0A;copy db-engine.h $(SolutionDir)include&#x0D;&#x0A;"
+				CommandLine="$(SolutionDir)upx.exe $(TargetPath)"
 			/>
 			<DeploymentTool
 				ForceDirty="-1"
@@ -115,6 +116,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="copy database.h $(SolutionDir)include&#x0D;&#x0A;copy db-engine.h $(SolutionDir)include"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -158,7 +160,7 @@
 				AdditionalDependencies="coredll.lib corelibc.lib"
 				OutputFile="$(SolutionDir)bin\db-engine.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\..\MzCommon\libs"
+				AdditionalLibraryDirectories="..\..\lib;..\..\..\MzCommon\libs"
 				ModuleDefinitionFile=".\db-engine.def"
 				GenerateDebugInformation="false"
 				StackReserveSize="65536"
@@ -184,7 +186,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy database.h $(SolutionDir)include&#x0D;&#x0A;copy db-engine.h $(SolutionDir)include&#x0D;&#x0A;"
+				CommandLine="$(SolutionDir)upx.exe $(TargetPath)"
 			/>
 			<DeploymentTool
 				ForceDirty="-1"
@@ -240,10 +242,6 @@
 				RelativePath=".\db_update.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\ui_password.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Í·ÎÄ¼þ"
@@ -260,10 +258,6 @@
 			</File>
 			<File
 				RelativePath=".\resource.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ui_password.h"
 				>
 			</File>
 		</Filter>

@@ -1,19 +1,10 @@
 #pragma once
 
-// include the MZFC library header file
-#include <mzfc_inc.h>
+#include <MzCommonDll.h>
 
-class UiControlBackground :
-	public UiWin
-{
-public:
-	virtual void PaintWin(HDC hdcDst, RECT* prcWin, RECT* prcUpdate){
-		UiWin::PaintWin(hdcDst, prcWin, prcUpdate);
-		MzDrawGridPopupMenuBG_480(hdcDst,prcWin);
-	}
-};
+class UiControlBackground;
 
-class Ui_PasswordWnd : public CMzWndEx 
+class COMMON_API Ui_PasswordWnd : public CMzWndEx 
 {
 	MZ_DECLARE_DYNAMIC(Ui_PasswordWnd);
 public:
@@ -22,7 +13,7 @@ public:
 public:
     UiToolbar_Text m_Toolbar;
     UiSingleLineEdit m_EdtPassword;
-	UiControlBackground m_Background;
+	UiControlBackground *m_pBackground;
 public:
 	void getPassword(wchar_t** p,int* plen);
 	void setMode(int m) { _uiMode = m; }
