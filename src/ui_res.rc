@@ -55,7 +55,6 @@ END
 IDB_PNG_LOGO            RCDATA                  "image\\logo.png"
 IDB_PNG_TITLE00         RCDATA                  "image\\title00.png"
 IDB_PNG_TITLE01         RCDATA                  "image\\title01.png"
-IDB_PNG_BG              RCDATA                  "image\\bg.png"
 
 /////////////////////////////////////////////////////////////////////////////
 //

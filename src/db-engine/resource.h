@@ -55,12 +55,12 @@
 #define IDS_STR_RETURN                  119
 #define IDS_STR_PERSON_CONTACT          119
 #define IDB_PNG_L_LRELEASE              120
-#define IDS_STR_OK                      120
 #define IDS_STR_PERSON_ALL              120
 #define IDB_PNG_L_RRELEASE              121
 #define IDS_STR_CANCEL                  121
 #define IDB_PNG_S_EDIT                  122
 #define IDS_STR_IMPORT                  122
+#define IDS_STR_OK                      122
 #define IDB_PNG_S_DEL                   123
 #define IDS_STR_EXPORT                  123
 #define IDB_PNG_L_UPRESS                124
@@ -250,7 +250,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        102
+#define _APS_NEXT_RESOURCE_VALUE        122
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           101

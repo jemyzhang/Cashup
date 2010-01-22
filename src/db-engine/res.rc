@@ -57,10 +57,19 @@ BEGIN
     IDS_STR_CASH            "现金"
     IDS_STR_CREDIT          "信用卡"
     IDS_STR_SAVING          "储蓄卡"
+    IDS_STR_PASSWORD        "密码"
+    IDS_STR_NEW_PWD         "新密码"
+    IDS_STR_PWD_TIP         "留空则清空密码"
+    IDS_STR_PWD_CLEAR_S     "密码清除成功"
+    IDS_STR_PWD_SET_S       "密码设置成功，下次登录请使用新密码"
+    IDS_STR_PWD_INCORRECT   "密码错误或数据库已损坏"
+    IDS_STR_PWD_LOCKED      "请输入访问密码"
 END
 
 STRINGTABLE 
 BEGIN
+    IDS_STR_PWD_SET_F       "密码设置失败！"
+    IDS_STR_PWD_CLEAR_F     "清除密码失败！"
     IDS_STR_TRANSFER        "转账"
     IDS_STR_INCOME          "收入"
     IDS_STR_EXPENSE         "支出"
@@ -68,6 +77,8 @@ BEGIN
     IDS_STR_PERSON_FAMILY   "家庭成员"
     IDS_STR_PERSON_CONTACT  "往来人员"
     IDS_STR_PERSON_ALL      "全部"
+    IDS_STR_CANCEL          "取消"
+    IDS_STR_OK              "确定"
 END
 
 #endif    // 中文(中华人民共和国) resources

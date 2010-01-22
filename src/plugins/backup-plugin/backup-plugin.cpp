@@ -9,6 +9,7 @@
 using namespace MzCommon;
 
 #pragma comment(lib,"mzfc.lib")
+#pragma comment(lib,"common-ui.lib")
 
 LPWSTR name = 0;
 HINSTANCE instHandle = 0;

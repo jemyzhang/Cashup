@@ -9,3 +9,4 @@ EXPORTS
 	DatabaseSetPassword @3
 	resetPassword @4
 	DatabaseEncrypted @5
+	MzPasswordDialog @6

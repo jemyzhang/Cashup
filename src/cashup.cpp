@@ -5,11 +5,17 @@ using namespace MzCommon;
 
 #include "resource.h"
 
-
+#ifdef _DEBUG
+#pragma comment(lib,"mzfc.lib")
+#pragma comment(lib,"MzCommon.lib")
+#pragma comment(lib,"moduleloaderd.lib")
+#pragma comment(lib,"common-uid.lib")
+#else
 #pragma comment(lib,"mzfc.lib")
 #pragma comment(lib,"MzCommon.lib")
 #pragma comment(lib,"moduleloader.lib")
 #pragma comment(lib,"common-ui.lib")
+#endif
 
 // The global variable of the application.
 CashupApp theApp;

@@ -16,3 +16,8 @@ bool DatabaseEncrypted();
 void createDefaultDatabase();
 bool setDatabaseFile(LPWSTR f);
 LPWSTR DatabaseFile();
+
+//ÏÔÊ¾ÃÜÂë¿ò
+//mode: 0,ÊäÈëÃÜÂë 1,ÉèÖÃÃÜÂë
+//retval: true: ID_OK false: ID_CANCEL
+bool MzPasswordDialog(LPWSTR *psz, int *plen, int mode = 0, HWND parent = 0);

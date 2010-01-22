@@ -2,8 +2,10 @@
 using namespace MzCommon;
 
 #include "ui_base.h"
-#include "..\resource.h"
-#include "..\commondef.h"
+#include "resource.h"
+#include <commondef.h>
+
+extern ImagingHelper *getResImage(int nID);
 
 #define	MZ_IDC_SCROLLWIN			802
 
@@ -12,6 +14,8 @@ MZ_IMPLEMENT_DYNAMIC(Ui_BaseWnd)
 Ui_BaseWnd::Ui_BaseWnd(){
     pMemDC = 0;
     pBitmap = 0;
+    bOverideCreateSize = true;
+    bImageBackground = true;
 }
 
 Ui_BaseWnd::~Ui_BaseWnd(){
@@ -28,12 +32,12 @@ BOOL Ui_BaseWnd::OnInitDialog() {
     // Then init the controls & other things in the window
 
 	int y = 0;
-	m_ScrollWin.SetPos(0,y,GetWidth(),GetHeight() - MZM_HEIGHT_TEXT_TOOLBAR);
+	m_ScrollWin.SetPos(0,y,GetWidth(),GetHeight());
 	m_ScrollWin.EnableScrollBarV(true);
 	m_ScrollWin.SetID(MZ_IDC_SCROLLWIN);
 	AddUiWin(&m_ScrollWin);
 
-    SetBackgroundImage(ImagingHelper::GetImageObject(MzGetInstanceHandle(),IDB_PNG_BG));
+    SetBackgroundImage(getResImage(IDB_PNG_BG));
 	//…Ë÷√∂•≤„HWND
 	::PostMessage(GetParent(),MZ_MW_CHANGE_TOPWND,(WPARAM)m_hWnd,0);
 	DateTime::waitms(1);
@@ -66,12 +70,15 @@ LRESULT Ui_BaseWnd::MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam) {
 }
 
 void Ui_BaseWnd::PaintWin(HDC hdc, RECT* prcUpdate){
-    ::BitBlt(hdc,0,0,GetWidth(),GetHeight(),
-        pMemDC,0,0,SRCCOPY);
+    if(bImageBackground){
+        ::BitBlt(hdc,0,0,GetWidth(),GetHeight(),
+            pMemDC,0,0,SRCCOPY);
+    }
     CMzWndEx::PaintWin(hdc,prcUpdate);
 }
 
 void Ui_BaseWnd::SetBackgroundImage(ImagingHelper *img){
+    if(!bImageBackground) return;
     if(img == NULL) return;
 
 	if(pMemDC) ReleaseDC(m_hWnd,pMemDC);
@@ -98,7 +105,20 @@ void Ui_BaseWnd::SetBackgroundImage(ImagingHelper *img){
 }
 
 BOOL Ui_BaseWnd::Create(int xPos, int yPos, int width, int height, HWND hwndParent, int uID, DWORD style, DWORD exstyle){
-    RECT rcWork = MzGetWorkArea();
-    return CMzWndEx::Create(rcWork.left, rcWork.top + SZ_LOGO_HEIGHT, RECT_WIDTH(rcWork), RECT_HEIGHT(rcWork) - SZ_LOGO_HEIGHT,
-        hwndParent,uID,style,exstyle);
+    if(bOverideCreateSize){
+        RECT rcWork = MzGetWorkArea();
+        return CMzWndEx::Create(rcWork.left, rcWork.top + SZ_LOGO_HEIGHT, RECT_WIDTH(rcWork), RECT_HEIGHT(rcWork) - SZ_LOGO_HEIGHT,
+            hwndParent,uID,style,exstyle);
+    }else{
+        return CMzWndEx::Create(xPos, yPos, width, height,
+            hwndParent,uID,style,exstyle);
+    }
+}
+
+void Ui_BaseWnd::SetSizeMode(bool fixed){
+    bOverideCreateSize = fixed;
+}
+
+void Ui_BaseWnd::EnableImageBackground(bool en){
+    bImageBackground = en;
 }

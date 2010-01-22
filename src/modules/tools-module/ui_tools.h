@@ -1,7 +1,7 @@
 #ifndef _UI_TOOLS_H
 #define _UI_TOOLS_H
 
-#include "..\..\baseui\ui_base.h"
+#include <ui_base.h>
 #include <pluginloader.h>
 
 // Main window derived from CMzWndEx

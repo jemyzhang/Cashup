@@ -1,13 +1,24 @@
 #include "ui_accounts.h"
-#include "ui_edit_account.h"
-#include "ui_report.h"
+#include "resource.h"
+#include <commondef.h>
 #include <MzCommon.h>
+using namespace MzCommon;
 
+static db_connection* dbcon = 0;
+extern CMzString getLngResString(int nID);
+extern HINSTANCE hHandle;
+#pragma comment(lib,"db-engine.lib")
 
-#define MZ_IDC_TOOLBAR_ACCOUNTS 101
-#define MZ_IDC_ACCOUNT_LIST 102
+class AccountList : public UiList {
+public:
+    // override the DrawItem member function to do your own drawing of the list
+	AccountList() { idlist = 0; }
+	void DrawItem(HDC hdcDst, int nIndex, RECT* prcItem, RECT *prcWin, RECT *prcUpdate);
+	void setupList(int* i) { idlist = i; }
+private:
+	int* idlist;
+};
 
-MZ_IMPLEMENT_DYNAMIC(Ui_AccountsWnd)
 void AccountList::DrawItem(HDC hdcDst, int nIndex, RECT* prcItem, RECT *prcWin, RECT *prcUpdate) {
     // draw the high-light background for the selected item
     if (nIndex == GetSelectedIndex()) {
@@ -16,8 +27,11 @@ void AccountList::DrawItem(HDC hdcDst, int nIndex, RECT* prcItem, RECT *prcWin, 
 
     // draw the text
 	if(idlist == 0) return;
+    if(dbcon == 0) dbcon = ::createDatabaseOjbect();
+    if(dbcon == 0) return;
+    db_account dbacnt(*dbcon);
 
-	CASH_ACCOUNT_ptr a = pldb->accountById(idlist[nIndex]);
+    LPACCOUNT a = dbacnt.account(idlist[nIndex]);
 
     COLORREF cr = RGB(0,0,0);       
     HFONT hf;
@@ -34,14 +48,14 @@ void AccountList::DrawItem(HDC hdcDst, int nIndex, RECT* prcItem, RECT *prcWin, 
 	Rect01.right = rcText.right - 200;
 	Rect01.bottom = rcText.top + lineHeight;
 	//第二块区域 第一行 显示盈余
-	Rect02.left = rcText.right - 200 - (imgArrow->GetImageWidth()<<2);
+	Rect02.left = rcText.right - 200;
 	Rect02.top = rcText.top;
 	Rect02.right = rcText.right - 20;
 	Rect02.bottom = rcText.top + lineHeight;
 	//第三块区域 第二行 显示备注
 	Rect03.left = rcText.left + 10;
 	Rect03.top = rcText.top + lineHeight;
-	Rect03.right = rcText.right - (imgArrow->GetImageWidth()<<1);
+	Rect03.right = rcText.right;
 	Rect03.bottom = rcText.bottom;
 
 	//账户名称
@@ -71,88 +85,44 @@ void AccountList::DrawItem(HDC hdcDst, int nIndex, RECT* prcItem, RECT *prcWin, 
 	MzDrawText( hdcDst , a->note , &Rect03 , DT_RIGHT|DT_SINGLELINE|DT_VCENTER|DT_END_ELLIPSIS );
 
 	DeleteObject( hf );
+}
 
-	RECT rectImage = {prcItem->right - (imgArrow->GetImageWidth()<<1),prcItem->top,prcItem->right,prcItem->bottom};
-	imgArrow->Draw(hdcDst,&rectImage);
+#define MZ_IDC_ACCOUNT_LIST 101
+
+MZ_IMPLEMENT_DYNAMIC(Ui_AccountsWnd)
+
+Ui_AccountsWnd::Ui_AccountsWnd() {
+    _mode = 0;
+    idarray = 0;
+    _sel_idx = -1;
+}
+
+Ui_AccountsWnd::~Ui_AccountsWnd() {
+    if(idarray) delete[] idarray;
+    delete m_pList;
 }
 
 BOOL Ui_AccountsWnd::OnInitDialog() {
     // Must all the Init of parent class first!
-    if (!Ui_CashBaseWnd::OnInitDialog()) {
+    if (!Ui_BaseWnd::OnInitDialog()) {
         return FALSE;
     }
-	return TRUE;
-}
-
-void Ui_AccountsWnd::SetupUi(){
-    // Then init the controls & other things in the window
 	int y = 0;
-	m_Caption1.SetPos(0,y,GetWidth(),MZM_HEIGHT_CAPTION);
-	m_Caption1.SetText(LOADSTRING(IDS_STR_ACCOUNT_LIST).C_Str());
-	AddUiWin(&m_Caption1);
 
-	y+=MZM_HEIGHT_CAPTION;
-    m_List.SetPos(0, y, GetWidth(), GetHeight() - MZM_HEIGHT_TEXT_TOOLBAR - MZM_HEIGHT_CAPTION);
-    m_List.SetID(MZ_IDC_ACCOUNT_LIST);
-    m_List.EnableScrollBarV(true);
-    m_List.EnableNotifyMessage(true);
-    AddUiWin(&m_List);
+    m_pList = new AccountList;
+    m_pList->SetPos(0, y, GetWidth(), GetHeight());
+    m_pList->SetID(MZ_IDC_ACCOUNT_LIST);
+    m_pList->EnableScrollBarV(true);
+    m_pList->EnableNotifyMessage(true);
+    AddUiWin(m_pList);
 
-    m_Toolbar.SetPos(0, GetHeight() - MZM_HEIGHT_TEXT_TOOLBAR, GetWidth(), MZM_HEIGHT_TEXT_TOOLBAR);
-    m_Toolbar.SetButton(0, true, true, LOADSTRING(IDS_STR_RETURN).C_Str());
-    m_Toolbar.EnableLeftArrow(true);
-	if(!_mode){
-		m_Toolbar.SetButton(1, true, true, LOADSTRING(IDS_STR_NEW).C_Str());
-		m_Toolbar.SetButton(2, true, true, LOADSTRING(IDS_STR_EDIT).C_Str());
-	}
-    m_Toolbar.SetID(MZ_IDC_TOOLBAR_ACCOUNTS);
-    AddUiWin(&m_Toolbar);
+    ::PostMessage(GetParent(),MZ_MW_CHANGE_TITLE,IDS_TITLE_ACCOUNTS,(LPARAM)hHandle);
+	DateTime::waitms(1);
+	return TRUE;
 }
 
 void Ui_AccountsWnd::OnMzCommand(WPARAM wParam, LPARAM lParam) {
     UINT_PTR id = LOWORD(wParam);
-	Ui_EditAccountWndEx dlg;
-    switch (id) {
-        case MZ_IDC_TOOLBAR_ACCOUNTS:
-        {
-            int nIndex = lParam;
-            if (nIndex == 0) { //返回
-                // exit the modal dialog
-                EndModal(ID_CANCEL);
-                return;
-            }
-            if (nIndex == 1) { //新建
-				RECT rcWork = MzGetWorkArea();
-				dlg.setMode(0);
-				dlg.Create(rcWork.left, rcWork.top, RECT_WIDTH(rcWork), RECT_HEIGHT(rcWork),
-						m_hWnd, 0, WS_POPUP);
-				// set the animation of the window
-				dlg.SetAnimateType_Show(MZ_ANIMTYPE_SCROLL_BOTTOM_TO_TOP_2);
-				dlg.SetAnimateType_Hide(MZ_ANIMTYPE_SCROLL_TOP_TO_BOTTOM_1);
-				int nRet = dlg.DoModal();
-				if (nRet == ID_OK) {
-					updateUi();
-				}
-                return;
-            }
-
-            if (nIndex == 2) { //编辑
-				RECT rcWork = MzGetWorkArea();
-				dlg.setMode(1);
-				dlg.setEditIndex(idarray[m_List.GetSelectedIndex()]);
-				dlg.Create(rcWork.left, rcWork.top, RECT_WIDTH(rcWork), RECT_HEIGHT(rcWork),
-						m_hWnd, 0, WS_POPUP);
-				// set the animation of the window
-				dlg.SetAnimateType_Show(MZ_ANIMTYPE_SCROLL_BOTTOM_TO_TOP_2);
-				dlg.SetAnimateType_Hide(MZ_ANIMTYPE_SCROLL_TOP_TO_BOTTOM_1);
-				int nRet = dlg.DoModal();
-				if (nRet == ID_OK) {
-					updateUi();
-				}
-                return;
-            }
-        }
-    }
 }
 
 LRESULT Ui_AccountsWnd::MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam) {
@@ -164,84 +134,66 @@ LRESULT Ui_AccountsWnd::MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam)
             int x = LOWORD(lParam);
             int y = HIWORD(lParam);
             if (nID == MZ_IDC_ACCOUNT_LIST && nNotify == MZ_MN_LBUTTONUP) {
-                if (!m_List.IsMouseDownAtScrolling() && !m_List.IsMouseMoved()) {
-                    int nIndex = m_List.CalcIndexOfPos(x, y);
-					if(nIndex != -1 && x > GetWidth() - (imgArrow->GetImageWidth()<<1)){
-						_sel_idx = nIndex;
-						m_List.SetSelectedIndex(nIndex);
-						m_List.Invalidate();
-						//显示折线图
-						Ui_AccountReportWnd dlg;
-						MzBeginWaitDlg(m_hWnd);
-						UpdateWindow();
-						dlg.setupAccountID(idarray[nIndex]);
-						MzEndWaitDlg();
-						UpdateWindow();
-						dlg.rotateScreen(0);
-						RECT rcWork = MzGetWorkArea();
-						if(rcWork.top == 0) rcWork.top = 40;
-						dlg.Create(rcWork.left, rcWork.top, RECT_WIDTH(rcWork), RECT_HEIGHT(rcWork),
-								m_hWnd, 0, WS_POPUP);
-						// set the animation of the window
-//						dlg.SetAnimateType_Show(MZ_ANIMTYPE_SCROLL_BOTTOM_TO_TOP_2);
-//						dlg.SetAnimateType_Hide(MZ_ANIMTYPE_SCROLL_TOP_TO_BOTTOM_1);
-						dlg.DoModal();
-						dlg.rotateScreen(1);
-					}else{
-						if(nIndex != -1 && nIndex == _sel_idx){
-							_selection = idarray[m_List.GetSelectedIndex()];
-							EndModal(ID_OK);
-							return 0;
-						}
-						_sel_idx = nIndex;
-						m_List.SetSelectedIndex(nIndex);
-						m_List.Invalidate();
-					}
+                if (!m_pList->IsMouseDownAtScrolling() && !m_pList->IsMouseMoved()) {
+                    int nIndex = m_pList->CalcIndexOfPos(x, y);
+                    if(nIndex != -1 && nIndex == _sel_idx){
+                        _selection = idarray[m_pList->GetSelectedIndex()];
+                        EndModal(ID_OK);
+                        return 0;
+                    }
+                    _sel_idx = nIndex;
+                    m_pList->SetSelectedIndex(nIndex);
+                    m_pList->Invalidate();
                 }
                 return 0;
             }
             if (nID == MZ_IDC_ACCOUNT_LIST && nNotify == MZ_MN_MOUSEMOVE) {
 				_sel_idx = -1;
-                m_List.SetSelectedIndex(-1);
-                m_List.Invalidate();
+                m_pList->SetSelectedIndex(-1);
+                m_pList->Invalidate();
                 return 0;
             }
        }
     }
-    return CMzWndEx::MzDefWndProc(message, wParam, lParam);
+    return Ui_BaseWnd::MzDefWndProc(message, wParam, lParam);
 }
 
 void Ui_AccountsWnd::UpdateUi(){
-	m_List.RemoveAll();
+	m_pList->RemoveAll();
+
+    if(dbcon == 0) dbcon = ::createDatabaseOjbect();
+    if(dbcon == 0) return;
 
     ListItem li;
     CMzString str;
+    db_account dbacnt(*dbcon);
+    dbacnt.query_all();
 
-	int tz = pldb->list_account.size();
+    int tz = dbacnt.query_size();
+    if(tz <= 0) return;
+
 	if(idarray) delete[] idarray;
-
 	idarray = new int[tz];
 
 	int *p = idarray;
+    db_analysis dbanalysis(*dbcon);
 
-	list<CASH_ACCOUNT_ptr>::iterator i = pldb->list_account.begin();
-	for (;i != pldb->list_account.end(); i++) {
-		CASH_ACCOUNT_ptr acc = *i;
-		if(_hideAccountId == acc->id) continue;
+	for (int i = 0;i < tz; i++) {
+        LPACCOUNT acc = dbacnt.query_at(i);
 
 		wchar_t str[128];
-		double balance = pldb->AccountBalanceById(acc->id);
+        double balance = dbanalysis.AccountBalanceById(acc->id);
 		if(balance < 0){
 			li.Data = (void*)1;
 		}else{
 			li.Data = 0;
 		}
-		wsprintf(str,LOADSTRING(IDS_STR_BALANCE1).C_Str(), balance/100);
+		wsprintf(str,getLngResString(IDS_ACCOUNT_BALANCE).C_Str(), balance/100);
 		li.Text = str;
 		
-		m_List.AddItem(li);
+		m_pList->AddItem(li);
 		*(p++) = acc->id;
     }
-	m_List.setupDatabase(pldb);
-	m_List.setupList(idarray);
+	m_pList->setupList(idarray);
+    m_pList->Invalidate();
 }

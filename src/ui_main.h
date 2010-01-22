@@ -1,7 +1,7 @@
 #ifndef _UI_MAIN_H
 #define _UI_MAIN_H
 
-#include "baseui\ui_base.h"
+#include <ui_base.h>
 #include <moduleloader.h>
 
 

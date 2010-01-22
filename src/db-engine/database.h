@@ -13,7 +13,7 @@ using namespace sqlite3x;
 #ifdef _DEBUG
 #define db_out(s) printf("%s:%d: %s\n",__FUNCTION__, __LINE__, s)
 #else
-#define db_out(s)
+#define db_out(s) printf("%s:%d: %s\n",__FUNCTION__, __LINE__, s)
 #endif
 
 #ifdef TRY
@@ -163,7 +163,7 @@ typedef struct tagPERSON {
 
 
 namespace cashdatabase {
-	class db_connection {
+	class COMMON_API db_connection {
 	public:
 		db_connection(LPWSTR dbfile);
 		~db_connection();
@@ -189,7 +189,7 @@ namespace cashdatabase {
 	    wchar_t db_path[MAX_PATH];
 	};
 
-	class db_transaction {
+	class COMMON_API db_transaction {
 	public:
 		db_transaction(db_connection &conn) : conn(conn) {}
 		~db_transaction() { clear_result(); }
@@ -228,7 +228,7 @@ namespace cashdatabase {
 		bool query_toaccount(int id, LPTRSDATE date = 0, LPTRSDATE datend = 0);
 	};
 
-	class db_account {
+	class COMMON_API db_account {
 	public:
 		db_account(db_connection &conn) : conn(conn) {}
 		~db_account() { clear_result(); }
@@ -257,7 +257,7 @@ namespace cashdatabase {
 		db_connection &conn;
 	};
 
-	class db_category {
+	class COMMON_API db_category {
 	public:
 		db_category(db_connection &conn) : conn(conn) {}
 		~db_category() { clear_result(); }
@@ -287,7 +287,7 @@ namespace cashdatabase {
 		db_connection &conn;
 	};
 
-	class db_person {
+	class COMMON_API db_person {
 	public:
 		db_person(db_connection &conn) : conn(conn) {}
 		~db_person() { clear_result(); }
@@ -314,7 +314,7 @@ namespace cashdatabase {
 		db_connection &conn;
 	};
 
-	class db_analysis {
+	class COMMON_API db_analysis {
 	public:
 		db_analysis(db_connection &conn) : conn(conn) {}
 	public:

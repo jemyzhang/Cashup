@@ -2,6 +2,7 @@
 // Microsoft Visual C++ generated include file.
 // Used by res.rc
 //
+#define IDB_PNG_BG                      101
 #define IDB_PNG_CALC                    102
 #define IDB_PNG_BEGIN                   102
 #define IDS_STR_CASH                    102
@@ -39,18 +40,23 @@
 #define IDB_PNG_EXPORT                  114
 #define IDS_STR_APPNAME                 114
 #define IDS_STR_TRANSFER                114
+#define IDS_ACCOUNT_BALANCE             114
 #define IDB_PNG_LINECHART               115
 #define IDS_STR_ABOUT                   115
 #define IDS_STR_INCOME                  115
+#define IDS_ACCOUNT_LIST                115
 #define IDB_PNG_PIECHART                116
 #define IDS_STR_APPAUTHOR               116
 #define IDS_STR_EXPENSE                 116
+#define IDS_TITLE_CALENDAR              116
 #define IDB_PNG_ENCRYPT                 117
 #define IDS_STR_APPVERSION              117
 #define IDS_STR_PERSON_DEFAULT          117
+#define IDS_TITLE_CALCULATOR            117
 #define IDB_PNG_BACKUP                  118
 #define IDS_STR_ADDTIONAL               118
 #define IDS_STR_PERSON_FAMILY           118
+#define IDS_TITLE_ACCOUNTS              118
 #define IDB_PNG_RELOADALERT             119
 #define IDS_STR_RETURN                  119
 #define IDS_STR_PERSON_CONTACT          119

@@ -5,15 +5,14 @@
 #include <MzCommon.h>
 using namespace MzCommon;
 
-#include "ui_password.h"
 #include "ui_calendar.h"
-#include "ui_password.h"
 #include "ui_calculator.h"
+#include "ui_accounts.h"
 
 #pragma comment(lib,"MzCommon.lib")
 #pragma comment(lib,"mzfc.lib")
 
-static HINSTANCE hHandle = 0;
+HINSTANCE hHandle = 0;
 
 BOOL APIENTRY DllMain( HANDLE hModule,
                       DWORD ul_reason_for_call,
@@ -30,55 +29,51 @@ ImagingHelper *getResImage(int nID){
 	return ImagingHelper::GetImageObject(hHandle,nID);
 }
 
-bool MzPasswordDialog(LPWSTR *psz, int *plen, HWND parent, int mode){
-    if(psz == 0 || plen == 0) return false;    //无法返回密码值，弹出框无效
-
-    Ui_PasswordWnd *pdlg = new Ui_PasswordWnd;
-    pdlg->setMode(mode);
-
-    RECT rcWork = MzGetWorkArea();
-    pdlg->Create(rcWork.left, rcWork.top + RECT_HEIGHT(rcWork)/4, RECT_WIDTH(rcWork), RECT_HEIGHT(rcWork)*3/4,
-        parent, 0, WS_POPUP);
-    // set the animation of the window
-    pdlg->SetAnimateType_Show(MZ_ANIMTYPE_SCROLL_BOTTOM_TO_TOP_2);
-    pdlg->SetAnimateType_Hide(MZ_ANIMTYPE_SCROLL_TOP_TO_BOTTOM_1);
-    if(pdlg->DoModal() == ID_OK){
-        pdlg->getPassword(psz,plen);
-        return true;
-    }else{
-        return false;
-    }
-}
-
 bool MzCalendarDialog(int &y, int &m, int &d, HWND parent){
+    bool bret = false;
     Ui_CalendarWnd *pdlg = new Ui_CalendarWnd;
     pdlg->SetDate(y,m,d);
     RECT rcWork = MzGetWorkArea();
-    pdlg->Create(rcWork.left, rcWork.top + RECT_HEIGHT(rcWork)/4, RECT_WIDTH(rcWork), RECT_HEIGHT(rcWork)*3/4,
+    pdlg->EnableImageBackground(false);
+    pdlg->SetSizeMode(false);
+    pdlg->Create(rcWork.left + 40, rcWork.top + RECT_HEIGHT(rcWork)/4, RECT_WIDTH(rcWork)-80, RECT_HEIGHT(rcWork)*1/2,
         parent, 0, WS_POPUP);
-    // set the animation of the window
-    pdlg->SetAnimateType_Show(MZ_ANIMTYPE_SCROLL_BOTTOM_TO_TOP_2);
-    pdlg->SetAnimateType_Hide(MZ_ANIMTYPE_SCROLL_TOP_TO_BOTTOM_1);
     if(pdlg->DoModal() == ID_OK){
         pdlg->GetDate(y,m,d);
-        return true;
-    }else{
-        return false;
+        bret = true;
     }
+    delete pdlg;
+    return bret;
 }
 bool MzCalculatorDialog(double &val, HWND parent){
+    bool bret = false;
     Ui_CalculatorWnd *pdlg = new Ui_CalculatorWnd;
+    pdlg->EnableImageBackground(false);
+    pdlg->SetSizeMode(false);
+    RECT rcWork = MzGetWorkArea();
+    pdlg->Create(rcWork.left, rcWork.top + RECT_HEIGHT(rcWork)/4, RECT_WIDTH(rcWork), 320,
+        parent, 0, WS_POPUP);
     pdlg->SetInitOprand(val);
+    if(pdlg->DoModal() == ID_OK){
+        val = pdlg->GetResult();
+        bret = true;
+    }
+    delete pdlg;
+    return bret;
+}
+
+bool MzAccountsDialog(int &id, int mode, HWND parent){
+    bool bret = false;
+    Ui_AccountsWnd *pdlg = new Ui_AccountsWnd;
+    pdlg->EnableImageBackground(false);
+    pdlg->SetMode(mode);
     RECT rcWork = MzGetWorkArea();
     pdlg->Create(rcWork.left, rcWork.top + RECT_HEIGHT(rcWork)/4, RECT_WIDTH(rcWork), RECT_HEIGHT(rcWork)*3/4,
         parent, 0, WS_POPUP);
-    // set the animation of the window
-    pdlg->SetAnimateType_Show(MZ_ANIMTYPE_SCROLL_BOTTOM_TO_TOP_2);
-    pdlg->SetAnimateType_Hide(MZ_ANIMTYPE_SCROLL_TOP_TO_BOTTOM_1);
     if(pdlg->DoModal() == ID_OK){
-        val = pdlg->GetResult();
-        return true;
-    }else{
-        return false;
+        id = pdlg->GetSelectionIndex();
+        bret = true;
     }
+    delete pdlg;
+    return bret;
 }

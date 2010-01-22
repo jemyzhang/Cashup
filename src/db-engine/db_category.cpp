@@ -17,7 +17,7 @@ namespace cashdatabase {
 				) > 0) return false;	//table ÒÑ¾­´æÔÚ
 
 			this->conn.sqlconn.executenonquery(
-				L"create table if not exist '"
+				L"create table if not exists '"
 				TABLE_CATEGORY
 				L"' (ID numeric primary key,NAME text NOT NULL,TYPE integer NOT NULL,PARENTID numeric NOT NULL,LEVEL integer);"
 				);

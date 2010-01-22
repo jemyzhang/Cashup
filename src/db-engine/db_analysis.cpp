@@ -26,7 +26,7 @@ namespace cashdatabase {
 				sqlite3_command cmd(this->conn.sqlconn,
 					L"select sum(amount) from '"
 					TABLE_TRANSACTION
-					L"' where categoryid in (select id from '"
+					L"' where catgoryid in (select id from '"
 					TABLE_CATEGORY
 					L"' where type=0 and DATE between ? and ?;");
 				cmd.bind(1,date1,lstrlen(date1)*2);	//date 1
@@ -37,9 +37,9 @@ namespace cashdatabase {
 				sqlite3_command cmd(this->conn.sqlconn,
 					L"select sum(amount) from '"
 					TABLE_TRANSACTION
-					L"' where ((accountid=? and categoryid in (select id from '"
+					L"' where ((accountid=? and catgoryid in (select id from '"
 					TABLE_CATEGORY
-					L"' where type=0)) or (toaccountid=? and categoryid in (select id from '"
+					L"' where type=0)) or (toaccountid=? and catgoryid in (select id from '"
 					TABLE_CATEGORY
 					L"' where type=2))) and DATE between ? and ?;");
 				cmd.bind(1,id);	//accountid
@@ -71,7 +71,7 @@ namespace cashdatabase {
 				sqlite3_command cmd(this->conn.sqlconn,
 					L"select sum(amount) from '"
 					TABLE_TRANSACTION
-					L"' where categoryid in (select id from '"
+					L"' where catgoryid in (select id from '"
 					TABLE_CATEGORY
 					L"' where type=1 and DATE between ? and ?;");
 				cmd.bind(1,date1,lstrlen(date1)*2);	//date 1
@@ -82,12 +82,12 @@ namespace cashdatabase {
 				sqlite3_command cmd(this->conn.sqlconn,
 					L"select sum(amount) from '"
 					TABLE_TRANSACTION
-					L"' where accountid=? and categoryid in (select id from '"
+					L"' where accountid=? and catgoryid in (select id from '"
 					TABLE_CATEGORY
 					L"' where type!=0) and DATE between ? and ?;");
 				cmd.bind(1,id);	//accountid
-				cmd.bind(3,date1,lstrlen(date1)*2);	//date 1
-				cmd.bind(4,date2,lstrlen(date2)*2);	//date 2
+				cmd.bind(2,date1,lstrlen(date1)*2);	//date 1
+				cmd.bind(3,date2,lstrlen(date2)*2);	//date 2
 
 				amount = cmd.executeint();
 			}

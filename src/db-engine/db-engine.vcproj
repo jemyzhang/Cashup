@@ -26,7 +26,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="copy database.h $(SolutionDir)include&#x0D;&#x0A;copy db-engine.h $(SolutionDir)include"
+				CommandLine="copy database.h $(SolutionDir)include&#x0D;&#x0A;copy db-engine.h $(SolutionDir)include&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -116,7 +116,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="copy database.h $(SolutionDir)include&#x0D;&#x0A;copy db-engine.h $(SolutionDir)include"
+				CommandLine="copy database.h $(SolutionDir)include&#x0D;&#x0A;copy db-engine.h $(SolutionDir)include&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -136,7 +136,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				AdditionalIncludeDirectories="..\..\..\MzCommon\include;..\..\include"
-				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_USRDLL;$(ARCHFAM);$(_ARCHFAM_);STANDARDSHELL_UI_MODEL"
+				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_USRDLL;$(ARCHFAM);$(_ARCHFAM_);STANDARDSHELL_UI_MODEL;COMMON_EXPORTS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -242,6 +242,10 @@
 				RelativePath=".\db_update.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\ui_password.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Í·ÎÄ¼þ"
@@ -258,6 +262,10 @@
 			</File>
 			<File
 				RelativePath=".\resource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ui_password.h"
 				>
 			</File>
 		</Filter>

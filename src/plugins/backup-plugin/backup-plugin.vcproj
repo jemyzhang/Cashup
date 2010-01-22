@@ -215,10 +215,6 @@
 				RelativePath=".\ui_backup.cpp"
 				>
 			</File>
-			<File
-				RelativePath="..\..\baseui\ui_base.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Í·ÎÄ¼þ"
@@ -235,10 +231,6 @@
 			</File>
 			<File
 				RelativePath=".\ui_backup.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\baseui\ui_base.h"
 				>
 			</File>
 		</Filter>

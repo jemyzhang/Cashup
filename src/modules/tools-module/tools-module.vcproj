@@ -211,10 +211,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\baseui\ui_base.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ui_tools.cpp"
 				>
 			</File>
@@ -230,10 +226,6 @@
 			</File>
 			<File
 				RelativePath=".\tools-module.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\baseui\ui_base.h"
 				>
 			</File>
 			<File

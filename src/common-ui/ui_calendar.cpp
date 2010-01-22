@@ -2,9 +2,12 @@
 #include <MzCommon.h>
 using namespace MzCommon;
 
+#include <commondef.h>
+
 #include "resource.h"
 extern CMzString getLngResString(int strid);
 extern ImagingHelper *getResImage(int nID);
+extern HINSTANCE hHandle;
 
 class UiGrid : public UiWin
 {
@@ -51,7 +54,6 @@ private:
 private:
 	COLORREF _selbg, _seltxt;
 	int _rows,_cols;
-	bool _isAutosize;
 	int _gwidth, _gheight;
 	bool _reqUpdate;
 	int m_nMaxX;
@@ -72,20 +74,14 @@ UiGrid::UiGrid()
 	_rows = 1;
 	_cols = 1;
 	setGridSize(_rows,_cols);
-	_gwidth = 68;
-	_gheight = 68;
+    _gwidth = _gheight = 0;
 	_reqUpdate = false;
-	_isAutosize = false;
 }
 
 UiGrid::~UiGrid(){
 	setGridSize(0,0);	//release 
 	if(pMemDC) ReleaseDC(GetParentWnd(),pMemDC);
 	if(pBitmap) DeleteObject(pBitmap);
-}
-
-void UiGrid::setGridAutoSize(bool a){
-	_isAutosize = a;
 }
 
 void UiGrid::setSelectedIndex(int row,int col){
@@ -155,10 +151,15 @@ void UiGrid::setGrids(int nRow, int nCol){
 				_grids[i][j].isSelected = false;
 				_grids[i][j].text = 0;
 				_grids[i][j].textColor = RGB(0,0,0);
-				_grids[i][j].textSize = 30;
+				_grids[i][j].textSize = 28;
 			}
 		}
 	}
+    if(_cols != 0 && _rows != 0){
+	    _gwidth = GetWidth()/_cols;
+	    _gheight = GetHeight()/_rows;
+    }
+
 }
 
 int UiGrid::getColCount(){
@@ -246,12 +247,6 @@ void UiGrid::PaintWin(HDC hdcDst, RECT* prcWin, RECT* prcUpdate){
 		}
 		int _gridw = _gwidth;
 		int _gridh = _gheight;
-		if(_isAutosize){
-			int _width = prcWin->right - prcWin->left;
-			int _height = prcWin->bottom - prcWin->top;
-			_gridw = _width/_cols;
-			_gridh = _height/_rows;
-		}
 		int _x = 0;//prcWin->left;
 		int _y = 0;//prcWin->top;
 
@@ -322,7 +317,6 @@ public:
 
 MZ_IMPLEMENT_DYNAMIC(Ui_CalendarWnd)
 
-#define MZ_IDC_TOOLBAR_CALENDAR 101
 #define MZ_IDC_Edit_YEAR 102
 #define MZ_IDC_Edit_MONTH 103
 #define MZ_IDC_Edit_DAY 104
@@ -335,6 +329,8 @@ MZ_IMPLEMENT_DYNAMIC(Ui_CalendarWnd)
 Ui_CalendarWnd::Ui_CalendarWnd(void)
 {
 	_year = 0; _month = 0; _day = 0;
+    m_pCalendar = 0;
+    m_pWeekBar = 0;
 }
 
 Ui_CalendarWnd::~Ui_CalendarWnd(void)
@@ -345,7 +341,8 @@ Ui_CalendarWnd::~Ui_CalendarWnd(void)
 
 BOOL Ui_CalendarWnd::OnInitDialog() {
     // Must all the Init of parent class first!
-    if (!CMzWndEx::OnInitDialog()) {
+    if (!Ui_BaseWnd::OnInitDialog()) {
+        ui_out("initial error!\n");
         return FALSE;
     }
 
@@ -365,7 +362,7 @@ BOOL Ui_CalendarWnd::OnInitDialog() {
 	int bw = rrleaseimg->GetImageWidth();
 	int bh = rrleaseimg->GetImageHeight();
 
-	m_BtnNext.SetPos(m_CaptionHeader.GetWidth() - bw, (m_CaptionHeader.GetHeight() - bh)/2 - 5, bw, bh);
+	m_BtnNext.SetPos(m_CaptionHeader.GetWidth() - bw - 5, (m_CaptionHeader.GetHeight() - bh)/2 - 10, bw, bh);
 	m_BtnNext.SetButtonType(MZC_BUTTON_NONE);
 	m_BtnNext.SetImage_Normal(rrleaseimg);
 	m_BtnNext.SetImage_Pressed(rpressimg);
@@ -374,7 +371,7 @@ BOOL Ui_CalendarWnd::OnInitDialog() {
 
     ImagingHelper *lrleaseimg = getResImage(IDB_PNG_L_LRELEASE);
     ImagingHelper *lpressimg = getResImage(IDB_PNG_L_LPRESS);
-	m_BtnPre.SetPos(5, (m_CaptionHeader.GetHeight() - bh)/2 - 5, bw, bh);
+	m_BtnPre.SetPos(5, (m_CaptionHeader.GetHeight() - bh)/2 - 10, bw, bh);
 	m_BtnPre.SetButtonType(MZC_BUTTON_NONE);
 	m_BtnPre.SetImage_Normal(lrleaseimg);
 	m_BtnPre.SetImage_Pressed(lpressimg);
@@ -387,19 +384,16 @@ BOOL Ui_CalendarWnd::OnInitDialog() {
 	m_pWeekBar->SetTextColor(RGB(128,128,128));
 	m_CaptionHeader.AddChild(m_pWeekBar);
 
-	y+=MZM_HEIGHT_CAPTION * 2;
+	y += MZM_HEIGHT_CAPTION * 2;
     m_pCalendar = new UiGrid;
-    m_pCalendar->SetPos(2, y, GetWidth()-2, 69*6);
+    m_pCalendar->SetPos(0, y, GetWidth(), GetHeight() - y);
 	m_pCalendar->SetID(MZ_IDC_CALENDAR_GRID);
 	m_pCalendar->EnableNotifyMessage(true);
     AddUiWin(m_pCalendar);
 
-    m_Toolbar.SetPos(0, GetHeight() - MZM_HEIGHT_TEXT_TOOLBAR, GetWidth(), MZM_HEIGHT_TEXT_TOOLBAR);
-    m_Toolbar.SetButton(0, true, true, getLngResString(IDS_STR_CANCEL).C_Str());
-    m_Toolbar.SetButton(2, true, true, getLngResString(IDS_STR_OK).C_Str());
-    m_Toolbar.SetID(MZ_IDC_TOOLBAR_CALENDAR);
-    AddUiWin(&m_Toolbar);
-	updateGrid();
+    ::PostMessage(GetParent(),MZ_MW_CHANGE_TITLE,IDS_TITLE_CALENDAR,(LPARAM)hHandle);
+	DateTime::waitms(1);
+
     return TRUE;
 }
 
@@ -446,28 +440,6 @@ void Ui_CalendarWnd::OnMzCommand(WPARAM wParam, LPARAM lParam) {
 			_day = 1;
 			updateGrid();
 			break;
-        case MZ_IDC_TOOLBAR_CALENDAR:
-        {
-            int nIndex = lParam;
-			if(nIndex == 0){	//取消
-				EndModal(ID_CANCEL);
-				return;
-			}
-			if(nIndex == 2){	//确定
-				int r = 0;
-				int c = 0;
-				if( m_pCalendar->getSelectedIndex(r,c)){
-					//check if is invalid selection
-					CMzString s = m_pCalendar->getText(r,c);
-					if(s.Length() == 0){
-						return;
-					}
-					_day = _wtoi(s.C_Str());
-					EndModal(ID_OK);
-				}
-				return;
-			}
-		}
 	}
 }
 
@@ -515,5 +487,5 @@ LRESULT Ui_CalendarWnd::MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		}
     }
-    return CMzWndEx::MzDefWndProc(message, wParam, lParam);
+    return Ui_BaseWnd::MzDefWndProc(message, wParam, lParam);
 }

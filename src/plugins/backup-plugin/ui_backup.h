@@ -2,7 +2,7 @@
 #define _UI_BACKUP_H
 
 // include the MZFC library header file
-#include "..\..\baseui\ui_base.h"
+#include <ui_base.h>
 
 class Ui_BackupWnd : public Ui_BaseWnd {
     MZ_DECLARE_DYNAMIC(Ui_BackupWnd);

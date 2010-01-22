@@ -2,46 +2,24 @@
 #define _UI_ACCOUNTS_H
 
 // include the MZFC library header file
-#include <mzfc_inc.h>
-#include "m8cashdb.h"
+#include <MzCommonDll.h>
+#include <db-engine.h>
+#include <ui_base.h>
 
-// Popup window derived from CMzWndEx
-class AccountList : public UiList {
-public:
-    // override the DrawItem member function to do your own drawing of the list
-	AccountList() { idlist = 0; pldb = 0; }
-	void DrawItem(HDC hdcDst, int nIndex, RECT* prcItem, RECT *prcWin, RECT *prcUpdate);
-	void setupList(int* i) { idlist = i; }
-	void setupDatabase(clsCASHDB *db){ pldb = db;	}
-protected:
-private:
-	int* idlist;
-	clsCASHDB *pldb;
-};
+class AccountList;
 
-class Ui_AccountsWnd : public Ui_CashBaseWnd {
+class COMMON_API Ui_AccountsWnd : public Ui_BaseWnd {
     MZ_DECLARE_DYNAMIC(Ui_AccountsWnd);
 public:
-	void setHideAccount(int h){
-		_hideAccountId = h;
-	}
 
-    int getSelectionIndex() {
-        return _selection;
-    }
-
-    Ui_AccountsWnd() {
-		_mode = 0;
-		idarray = 0;
-		_hideAccountId = -1;
-		_sel_idx = -1;
-    }
+    Ui_AccountsWnd();
+    ~Ui_AccountsWnd();
+public:
 	//1: selection mode
-	void setMode(int m) { _mode = m; }
+	void SetMode(int m) { _mode = m; }
+    int GetSelectionIndex() { return _selection; }
 protected:
-    UiToolbar_Text m_Toolbar;
-    UiCaption m_Caption1;
-    AccountList m_List;
+    AccountList *m_pList;
 
     // Initialization of the window (dialog)
     virtual BOOL OnInitDialog();
@@ -51,12 +29,12 @@ protected:
     // override the MZFC window messages handler
     virtual LRESULT MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam);
 	//update display list
+private:
 	void UpdateUi();
-	void SetupUi();
+    virtual void DelayShow() { UpdateUi(); }
 private:
 	int _mode;
     int _selection;
-	int _hideAccountId;
 	int *idarray;
 	int _sel_idx;
 };

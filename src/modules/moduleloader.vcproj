@@ -19,7 +19,7 @@
 		<Configuration
 			Name="Debug|M8SDK (ARMV4I)"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)obj\modules\$(ProjectName)\$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			CharacterSet="1"

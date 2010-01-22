@@ -1,17 +1,17 @@
 #pragma once
 #include <MzCommonDll.h>
+#include <ui_base.h>
 
 class UiGrid;
 class UiWeekBar;
 
-class COMMON_API Ui_CalendarWnd : public CMzWndEx 
+class COMMON_API Ui_CalendarWnd : public Ui_BaseWnd 
 {
 	MZ_DECLARE_DYNAMIC(Ui_CalendarWnd);
 public:
 	Ui_CalendarWnd(void);
 	~Ui_CalendarWnd(void);
 public:
-    UiToolbar_Text m_Toolbar;
 	UiCaption m_CaptionHeader;
 	UiButton_Image m_BtnNext;
 	UiButton_Image m_BtnPre;
@@ -34,6 +34,7 @@ protected:
     // override the MZFC window messages handler
     virtual LRESULT MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam);
 private:
+    virtual void DelayShow() { updateGrid(); }	//—” ±œ‘ æ
 	void updateGrid();
 private:
 	int _year;

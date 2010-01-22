@@ -1,13 +1,14 @@
 #pragma once
 
 #include <MzCommonDll.h>
+#include <ui_base.h>
 
 class UiControlBG;
 class UiNumericDisplay;
 class UiCalButton;
 class CalcCore;
 
-class COMMON_API Ui_CalculatorWnd : public CMzWndEx 
+class COMMON_API Ui_CalculatorWnd : public Ui_BaseWnd 
 {
 	MZ_DECLARE_DYNAMIC(Ui_CalculatorWnd);
 public:
@@ -28,6 +29,8 @@ protected:
     virtual LRESULT MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam);
     // override the MZFC command handler
     virtual void OnMzCommand(WPARAM wParam, LPARAM lParam);
+private:
+    virtual void DelayShow() { }	//—” ±œ‘ æ
 private:
 	double _result;
 	CalcCore *pcore;

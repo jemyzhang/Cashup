@@ -2,7 +2,7 @@
 //
 
 #include "db-engine.h"
-#include <common-ui.h>
+#include "ui_password.h"
 #include "resource.h"
 #include <MzCommon.h>
 using namespace MzCommon;
@@ -20,7 +20,6 @@ static LPWSTR g_dbpath = 0;
 #endif
 
 #pragma comment(lib,"MzCommon.lib")
-#pragma comment(lib,"common-ui.lib")
 #pragma comment(lib,"mzfc.lib")
 
 static HINSTANCE lngres = 0;
@@ -87,30 +86,38 @@ LPWSTR DatabaseFile(){
 db_connection* createDatabaseOjbect(){
 	if(g_pldb == 0){
 		bool bRet = false;
-		g_pldb = new db_connection(DatabaseFile());
-		g_bencypt = false;
-		if(!g_pldb->checkpwd(g_password,g_password_len)){
-			g_bencypt = true;
-			bRet = false;
-			wchar_t *p = 0; int len = 0;
-			while(MzPasswordDialog(&p,&len)){	//输入密码框获取密码
-				if(g_pldb->checkpwd(p,len)){	//检查密码正确性
-					bRet = true;
-					if(len > 0){
-						memcpy(g_password,p,sizeof(wchar_t)*len);
-						g_password_len = len;
-					}else{
-						g_password[0] = 0;
-						g_password_len = 0;
-					}
-					break;
-				}else{
-					MzAutoMsgBoxEx(0,getLngResString(IDS_STR_PWD_INCORRECT).C_Str(),2000);
-				}
-			}
-		}else{
-			bRet = true;
-		}
+        //当数据文件不存在时
+        if(!File::FileExists(DatabaseFile())){
+		    g_pldb = new db_connection(DatabaseFile());
+		    g_bencypt = false;
+            bRet = true;
+        }else{
+            //当数据文件存在时
+		    g_pldb = new db_connection(DatabaseFile());
+		    g_bencypt = false;
+		    if(!g_pldb->checkpwd(g_password,g_password_len)){
+			    g_bencypt = true;
+			    bRet = false;
+			    wchar_t *p = 0; int len = 0;
+			    while(MzPasswordDialog(&p,&len)){	//输入密码框获取密码
+				    if(g_pldb->checkpwd(p,len)){	//检查密码正确性
+					    bRet = true;
+					    if(len > 0){
+						    memcpy(g_password,p,sizeof(wchar_t)*len);
+						    g_password_len = len;
+					    }else{
+						    g_password[0] = 0;
+						    g_password_len = 0;
+					    }
+					    break;
+				    }else{
+					    MzAutoMsgBoxEx(0,getLngResString(IDS_STR_PWD_INCORRECT).C_Str(),2000);
+				    }
+			    }
+		    }else{
+			    bRet = true;
+		    }
+        }
 
 		if(bRet){	//成功解密
 			create();
@@ -139,7 +146,7 @@ void DatabaseSetPassword(){
 	if(g_pldb == NULL) createDatabaseOjbect();
 
 	wchar_t *p = 0; int len = 0;
-	if(MzPasswordDialog(&p,&len,0,1)){
+	if(MzPasswordDialog(&p,&len,1)){
 		if(g_pldb->encrypt(p,len)){
 			if(len != 0){
 				MzAutoMsgBoxEx(0,getLngResString(IDS_STR_PWD_SET_S).C_Str(),2000);
@@ -165,3 +172,22 @@ bool DatabaseEncrypted(){
 	return g_bencypt;
 }
 
+bool MzPasswordDialog(LPWSTR *psz, int *plen, int mode, HWND parent){
+    if(psz == 0 || plen == 0) return false;    //无法返回密码值，弹出框无效
+
+    Ui_PasswordWnd *pdlg = new Ui_PasswordWnd;
+    pdlg->setMode(mode);
+
+    RECT rcWork = MzGetWorkArea();
+    pdlg->Create(rcWork.left, rcWork.top + RECT_HEIGHT(rcWork)/4, RECT_WIDTH(rcWork), RECT_HEIGHT(rcWork)*3/4,
+        parent, 0, WS_POPUP);
+    // set the animation of the window
+    pdlg->SetAnimateType_Show(MZ_ANIMTYPE_NONE);
+    pdlg->SetAnimateType_Hide(MZ_ANIMTYPE_FADE);
+    if(pdlg->DoModal() == ID_OK){
+        pdlg->getPassword(psz,plen);
+        return true;
+    }else{
+        return false;
+    }
+}

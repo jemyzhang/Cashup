@@ -5,6 +5,7 @@ using namespace MzCommon;
 #include "resource.h"
 #include <UiIconButton.h>
 #include <commondef.h>
+#include <common-ui.h>
 
 extern HINSTANCE instHandle;
 
@@ -30,6 +31,12 @@ BOOL Ui_AppendWnd::OnInitDialog() {
 void Ui_AppendWnd::DelayShow(){
     ::PostMessage(GetParent(),MZ_MW_CHANGE_TITLE,IDS_MODULE_NAME,(LPARAM)instHandle);
 	DateTime::waitms(1);
+    int id = 0;
+    int y = 0,m = 0,d = 0;
+    ::MzAccountsDialog(id,0,m_hWnd);
+    //::MzCalendarDialog(y,m,d,m_hWnd);
+    //double val = 0.0;
+    //::MzCalculatorDialog(val,m_hWnd);
 }
 
 LRESULT Ui_AppendWnd::MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam) {

@@ -9,8 +9,7 @@
 #define IDS_STR_APPVERSION              102
 #define IDB_PNG_TITLE01                 103
 #define IDS_STR_ADDTIONAL               103
-#define IDB_PNG_BG                      104
-#define IDB_PNG_END                     104
+#define IDB_PNG_END                     103
 #define IDS_STR_COPYRIGHT               104
 #define IDS_TTL_MAIN                    105
 #define IDS_MODULE_LOADING              106

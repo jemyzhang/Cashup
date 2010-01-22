@@ -16,7 +16,7 @@ namespace cashdatabase {
 				) > 0) return false;	//table ÒÑ¾­´æÔÚ
 
 			this->conn.sqlconn.executenonquery(
-				L"create table if not exist '"
+				L"create table if not exists '"
 				TABLE_TRANSACTION
 				L"' (TRANSACTID numeric primary key,DATE text not null,AMOUNT integer not null,NOTE text,"
 				L" ACCOUNTID numeric not null,CATGORYID numeric not null,TOACCOUNTID numeric,ISTRANSFER integer not null,"

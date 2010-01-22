@@ -26,7 +26,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="copy $(ProjectDir)common-ui.h $(SolutionDir)include"
+				CommandLine="copy $(ProjectDir)common-ui.h $(SolutionDir)include&#x0D;&#x0A;copy $(ProjectDir)ui_base.h $(SolutionDir)include&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -46,7 +46,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				AdditionalIncludeDirectories="..\..\..\MzCommon\include;..\..\include"
-				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_USRDLL;$(ARCHFAM);$(_ARCHFAM_);STANDARDSHELL_UI_MODEL"
+				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_USRDLL;$(ARCHFAM);$(_ARCHFAM_);STANDARDSHELL_UI_MODEL;COMMON_EXPORTS"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -67,9 +67,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,6.00"
-				OutputFile="$(OutDir)/common-ui.dll"
+				AdditionalDependencies="coredll.lib corelibc.lib"
+				OutputFile="$(SolutionDir)bin\common-ui.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\..\MzCommon\libs"
+				AdditionalLibraryDirectories="..\..\lib;..\..\..\MzCommon\libs"
 				ModuleDefinitionFile=".\common-ui.def"
 				GenerateDebugInformation="true"
 				StackReserveSize="65536"
@@ -116,7 +117,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="copy $(ProjectDir)common_ui.h $(SolutionDir)include&#x0D;&#x0A;copy $(ProjectDir)ui_password.h $(SolutionDir)include&#x0D;&#x0A;copy $(ProjectDir)UiImage.h $(SolutionDir)include&#x0D;&#x0A;copy $(ProjectDir)UiIconButton.h $(SolutionDir)include&#x0D;&#x0A;"
+				CommandLine="copy $(ProjectDir)common-ui.h $(SolutionDir)include&#x0D;&#x0A;copy $(ProjectDir)ui_accounts.h $(SolutionDir)include&#x0D;&#x0A;copy $(ProjectDir)ui_base.h $(SolutionDir)include&#x0D;&#x0A;copy $(ProjectDir)UiImage.h $(SolutionDir)include&#x0D;&#x0A;copy $(ProjectDir)UiIconButton.h $(SolutionDir)include&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -160,7 +161,7 @@
 				AdditionalDependencies="coredll.lib corelibc.lib"
 				OutputFile="$(SolutionDir)bin\common-ui.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\..\MzCommon\libs"
+				AdditionalLibraryDirectories="..\..\lib;..\..\..\MzCommon\libs"
 				ModuleDefinitionFile=".\common-ui.def"
 				GenerateDebugInformation="false"
 				StackReserveSize="65536"
@@ -219,15 +220,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ui_accounts.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ui_base.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ui_calculator.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\ui_calendar.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ui_password.cpp"
 				>
 			</File>
 			<File
@@ -257,15 +262,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ui_accounts.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ui_base.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ui_calculator.h"
 				>
 			</File>
 			<File
 				RelativePath=".\ui_calendar.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ui_password.h"
 				>
 			</File>
 			<File
@@ -283,7 +292,27 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
+				RelativePath=".\image\bg.png"
+				>
+			</File>
+			<File
+				RelativePath=".\image\lLPressed.png"
+				>
+			</File>
+			<File
+				RelativePath=".\image\lLReleased.png"
+				>
+			</File>
+			<File
 				RelativePath=".\res.rc"
+				>
+			</File>
+			<File
+				RelativePath=".\image\rLPressed.png"
+				>
+			</File>
+			<File
+				RelativePath=".\image\rLReleased.png"
 				>
 			</File>
 		</Filter>

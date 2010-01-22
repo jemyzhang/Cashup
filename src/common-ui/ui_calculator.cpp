@@ -3,6 +3,10 @@
 using namespace MzCommon;
 
 #include "calcore.h"
+#include <commondef.h>
+
+#include "resource.h"
+extern HINSTANCE hHandle;
 
 class UiNumericDisplay : public UiWin
 {
@@ -299,8 +303,10 @@ Ui_CalculatorWnd::~Ui_CalculatorWnd(void)
 #define HSIZE 85
 #define VSIZE 50
 BOOL Ui_CalculatorWnd::OnInitDialog() {
+    ui_out("calculator initializing.\n");
     // Must all the Init of parent class first!
-    if (!CMzWndEx::OnInitDialog()) {
+    if (!Ui_BaseWnd::OnInitDialog()) {
+        ui_out("calculator initialization failed.\n");
         return FALSE;
     }
 
@@ -336,6 +342,10 @@ BOOL Ui_CalculatorWnd::OnInitDialog() {
 
     pcore = new CalcCore;
 	pcore->InitStack();
+    ui_out("calculator initialized.\n");
+    ::PostMessage(GetParent(),MZ_MW_CHANGE_TITLE,IDS_TITLE_CALCULATOR,(LPARAM)hHandle);
+	DateTime::waitms(1);
+    
     return TRUE;
 }
 
@@ -439,7 +449,7 @@ LRESULT Ui_CalculatorWnd::MzDefWndProc(UINT message, WPARAM wParam, LPARAM lPara
 		}
 	}
 
-    return CMzWndEx::MzDefWndProc(message, wParam, lParam);
+    return Ui_BaseWnd::MzDefWndProc(message, wParam, lParam);
 }
 
 void Ui_CalculatorWnd::SetInitOprand(double val){

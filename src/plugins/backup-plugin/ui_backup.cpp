@@ -7,11 +7,7 @@ using namespace MzCommon;
 #include "resource.h"
 
 #include <db-engine.h>
-#ifdef _DEBUG
-#pragma comment(lib,"db-engined.lib")
-#else
 #pragma comment(lib,"db-engine.lib")
-#endif
 
 #include <commondef.h>
 

@@ -8,13 +8,9 @@
 using namespace MzCommon;
 #include <commondef.h>
 
-#ifdef _DEBUG
-#pragma comment(lib,"mzfc.lib")
-#pragma comment(lib,"MzCommond.lib")
-#else
 #pragma comment(lib,"mzfc.lib")
 #pragma comment(lib,"MzCommon.lib")
-#endif
+#pragma comment(lib,"common-ui.lib")
 
 Ui_AppendWnd *pdlg = 0;
 LPWSTR name = 0;
