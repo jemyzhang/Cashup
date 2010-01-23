@@ -5,11 +5,17 @@
 #include "ui_backup.h"
 #include "resource.h"
 
-#include <MzCommon.h>
-using namespace MzCommon;
+#include <cMzCommon.h>
+using namespace cMzCommon;
 
 #pragma comment(lib,"mzfc.lib")
+#ifdef _DEBUG
 #pragma comment(lib,"common-ui.lib")
+#pragma comment(lib,"cMzCommond.lib")
+#else
+#pragma comment(lib,"common-ui.lib")
+#pragma comment(lib,"cMzCommon.lib")
+#endif
 
 LPWSTR name = 0;
 HINSTANCE instHandle = 0;

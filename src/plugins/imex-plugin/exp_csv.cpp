@@ -1,7 +1,7 @@
 #include "imexport.h"
 #include "resource.h"
-#include <MzCommon.h>
-using namespace MzCommon;
+#include <cMzCommon.h>
+using namespace cMzCommon;
 
 bool ImExport::csv_export(wchar_t* file,int &sz){
 	sz = 0;

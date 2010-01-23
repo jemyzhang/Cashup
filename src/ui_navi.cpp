@@ -1,5 +1,5 @@
-#include <MzCommon.h>
-using namespace MzCommon;
+#include <cMzCommon.h>
+using namespace cMzCommon;
 
 #include "ui_navi.h"
 #include "resource.h"
@@ -37,6 +37,7 @@ BOOL Ui_NaviWnd::OnInitDialog() {
 	m_Title.SetPos(87,y,306,50);
 	m_Title.SetImage_Pressed(pimg[IDB_PNG_TITLE00 - IDB_PNG_BEGIN]);
 	m_Title.SetImage_Normal(pimg[IDB_PNG_TITLE01 - IDB_PNG_BEGIN]);
+    //m_Title.EnableButtonHighlight(false);
 	m_Title.SetTextColor(RGB(255,255,255));
 	m_Title.SetTextSize(32);
 	m_Title.SetID(MZ_IDC_TITLE);

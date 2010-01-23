@@ -1,6 +1,6 @@
+#include <cMzCommon.h>
+using namespace cMzCommon;
 #include "ui_calculator.h"
-#include <MzCommon.h>
-using namespace MzCommon;
 
 #include "calcore.h"
 #include <commondef.h>

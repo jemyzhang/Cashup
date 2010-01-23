@@ -1,7 +1,7 @@
 #include "imexport.h"
 #include "resource.h"
-#include <MzCommon.h>
-using namespace MzCommon;
+#include <cMzCommon.h>
+using namespace cMzCommon;
 
 LPWSTR ImExport::qif_date(LPCTSTR recdt){
 	LPWSTR retval = NULL;

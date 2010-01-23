@@ -1,18 +1,18 @@
 #include "cashup.h"
 
-#include <MzCommon.h>
-using namespace MzCommon;
+#include <cMzCommon.h>
+using namespace cMzCommon;
 
 #include "resource.h"
 
 #ifdef _DEBUG
 #pragma comment(lib,"mzfc.lib")
-#pragma comment(lib,"MzCommon.lib")
+#pragma comment(lib,"ccMzCommon.lib")
 #pragma comment(lib,"moduleloaderd.lib")
 #pragma comment(lib,"common-uid.lib")
 #else
 #pragma comment(lib,"mzfc.lib")
-#pragma comment(lib,"MzCommon.lib")
+#pragma comment(lib,"cMzCommon.lib")
 #pragma comment(lib,"moduleloader.lib")
 #pragma comment(lib,"common-ui.lib")
 #endif

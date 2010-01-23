@@ -1,8 +1,8 @@
+#include <cMzCommon.h>
+using namespace cMzCommon;
 #include "ui_accounts.h"
 #include "resource.h"
 #include <commondef.h>
-#include <MzCommon.h>
-using namespace MzCommon;
 
 static db_connection* dbcon = 0;
 extern CMzString getLngResString(int nID);
@@ -55,7 +55,7 @@ void AccountList::DrawItem(HDC hdcDst, int nIndex, RECT* prcItem, RECT *prcWin, 
 	//第三块区域 第二行 显示备注
 	Rect03.left = rcText.left + 10;
 	Rect03.top = rcText.top + lineHeight;
-	Rect03.right = rcText.right;
+	Rect03.right = rcText.right - 10;
 	Rect03.bottom = rcText.bottom;
 
 	//账户名称

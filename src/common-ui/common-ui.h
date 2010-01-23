@@ -2,7 +2,7 @@
 //
 
 #pragma once
-#include <MzCommonDll.h>
+#include <cMzCommonDll.h>
 
 //显示日历
 //y,m,d: in&out 年月日初始值&返回值

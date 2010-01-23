@@ -4,8 +4,8 @@
 #include "db-engine.h"
 #include "ui_password.h"
 #include "resource.h"
-#include <MzCommon.h>
-using namespace MzCommon;
+#include <cMzCommon.h>
+using namespace cMzCommon;
 
 static wchar_t g_password[256] = {0};
 static int g_password_len = 0;
@@ -19,7 +19,7 @@ static LPWSTR g_dbpath = 0;
 #define DEFAULT_DB		L"\\Disk\\Programs\\M8Cash\\cash.db"
 #endif
 
-#pragma comment(lib,"MzCommon.lib")
+#pragma comment(lib,"cMzCommon.lib")
 #pragma comment(lib,"mzfc.lib")
 
 static HINSTANCE lngres = 0;
@@ -111,7 +111,7 @@ db_connection* createDatabaseOjbect(){
 					    }
 					    break;
 				    }else{
-					    MzAutoMsgBoxEx(0,getLngResString(IDS_STR_PWD_INCORRECT).C_Str(),2000);
+					    MzMessageAutoBoxV2(0,getLngResString(IDS_STR_PWD_INCORRECT).C_Str(),MZV2_MB_NONE,2000,true);
 				    }
 			    }
 		    }else{
@@ -149,15 +149,15 @@ void DatabaseSetPassword(){
 	if(MzPasswordDialog(&p,&len,1)){
 		if(g_pldb->encrypt(p,len)){
 			if(len != 0){
-				MzAutoMsgBoxEx(0,getLngResString(IDS_STR_PWD_SET_S).C_Str(),2000);
+                MzMessageAutoBoxV2(0,getLngResString(IDS_STR_PWD_SET_S).C_Str(),MZV2_MB_NONE,2000,true);
 			}else{
-				MzAutoMsgBoxEx(0,getLngResString(IDS_STR_PWD_CLEAR_S).C_Str(),2000);
+                MzMessageAutoBoxV2(0,getLngResString(IDS_STR_PWD_CLEAR_S).C_Str(),MZV2_MB_NONE,2000,true);
 			}
 		}else{
 			if(len != 0){
-				MzAutoMsgBoxEx(0,getLngResString(IDS_STR_PWD_SET_F).C_Str(),2000);
+                MzMessageAutoBoxV2(0,getLngResString(IDS_STR_PWD_SET_F).C_Str(),MZV2_MB_NONE,2000,true);
 			}else{
-				MzAutoMsgBoxEx(0,getLngResString(IDS_STR_PWD_CLEAR_F).C_Str(),2000);
+                MzMessageAutoBoxV2(0,getLngResString(IDS_STR_PWD_CLEAR_F).C_Str(),MZV2_MB_NONE,2000,true);
 			}
 		}
 	}

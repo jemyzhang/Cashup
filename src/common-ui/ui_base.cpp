@@ -1,5 +1,5 @@
-#include <MzCommon.h>
-using namespace MzCommon;
+#include <cMzCommon.h>
+using namespace cMzCommon;
 
 #include "ui_base.h"
 #include "resource.h"

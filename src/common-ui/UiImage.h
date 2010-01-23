@@ -1,5 +1,5 @@
 #pragma once
-#include <MzCommonDll.h>
+#include <cMzCommonDll.h>
 
 class COMMON_API UiImage : public UiWin
 {

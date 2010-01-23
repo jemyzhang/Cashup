@@ -1,11 +1,12 @@
-#include <MzCommon.h>
-using namespace MzCommon;
+#include <cMzCommon.h>
+using namespace cMzCommon;
 
 #include "UiIconButton.h"
 
 UiIconButton::UiIconButton(){
 	m_button.SetPos(0,0,90,90);
 	m_button.SetButtonType(MZC_BUTTON_NONE);
+    //m_button.EnableButtonHighlight(false);
 	m_button.EnableNotifyMessage(true);
 
 	m_text.SetPos(0,90,90,25);

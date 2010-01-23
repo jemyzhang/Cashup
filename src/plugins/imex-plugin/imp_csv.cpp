@@ -1,7 +1,7 @@
 #include "imexport.h"
 #include "resource.h"
-#include <MzCommon.h>
-using namespace MzCommon;
+#include <cMzCommon.h>
+using namespace cMzCommon;
 #include <fstream>
 
 //日期,金额,账户,转至账户,分类,人员,备注

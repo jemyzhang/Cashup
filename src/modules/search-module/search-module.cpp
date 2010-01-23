@@ -4,12 +4,12 @@
 #include "search-module.h"
 #include "ui_search.h"
 
-#include <MzCommon.h>
-using namespace MzCommon;
+#include <cMzCommon.h>
+using namespace cMzCommon;
 #include <commondef.h>
 
 #pragma comment(lib,"mzfc.lib")
-#pragma comment(lib,"MzCommon.lib")
+#pragma comment(lib,"cMzCommon.lib")
 #pragma comment(lib,"common-ui.lib")
 
 Ui_SearchWnd *pdlg = 0;

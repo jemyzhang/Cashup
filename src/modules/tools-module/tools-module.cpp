@@ -4,12 +4,12 @@
 #include "tools-module.h"
 #include "ui_tools.h"
 
-#include <MzCommon.h>
-using namespace MzCommon;
+#include <cMzCommon.h>
+using namespace cMzCommon;
 #include <commondef.h>
 
 #pragma comment(lib,"mzfc.lib")
-#pragma comment(lib,"MzCommon.lib")
+#pragma comment(lib,"cMzCommon.lib")
 #pragma comment(lib,"pluginloader.lib")
 #pragma comment(lib,"common-ui.lib")
 

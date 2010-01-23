@@ -1,6 +1,6 @@
+#include <cMzCommon.h>
+using namespace cMzCommon;
 #include "UiImage.h"
-#include <MzCommon.h>
-using namespace MzCommon;
 
 void UiImage::PaintWin(HDC hdcDst, RECT* prcWin, RECT* prcUpdate){
     UiWin::PaintWin(hdcDst,prcWin,prcUpdate);

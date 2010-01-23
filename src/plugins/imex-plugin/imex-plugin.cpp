@@ -4,8 +4,8 @@
 #include "imex-plugin.h"
 #include "ui_about.h"
 
-#include <MzCommon.h>
-using namespace MzCommon;
+#include <cMzCommon.h>
+using namespace cMzCommon;
 #include <afxwin.h>
 
 #pragma comment(lib,"mzfc.lib")

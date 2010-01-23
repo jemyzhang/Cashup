@@ -8,8 +8,8 @@
 #include <IFileBrowser.h>
 #include <IFileBrowser_GUID.h>
 
-#include <MzCommon.h>
-using namespace MzCommon;
+#include <cMzCommon.h>
+using namespace cMzCommon;
 
 extern HINSTANCE AfxGetInstanceHandle();
 static HINSTANCE lngres = 0;

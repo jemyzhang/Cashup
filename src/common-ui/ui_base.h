@@ -2,7 +2,7 @@
 #define _UI_BASE_H
 
 // include the MZFC library header file
-#include <MzCommonDll.h>
+#include <cMzCommonDll.h>
 
 // Main window derived from CMzWndEx
 

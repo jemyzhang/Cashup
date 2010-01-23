@@ -3,16 +3,16 @@
 
 #include "exit-module.h"
 
-#include <MzCommon.h>
-using namespace MzCommon;
+#include <cMzCommon.h>
+using namespace cMzCommon;
 
 #include <commondef.h>
 
 #pragma comment(lib,"mzfc.lib")
 #ifdef _DEBUG
-#pragma comment(lib,"MzCommond.lib")
+#pragma comment(lib,"cMzCommond.lib")
 #else
-#pragma comment(lib,"MzCommon.lib")
+#pragma comment(lib,"cMzCommon.lib")
 #endif
 
 LPWSTR name = 0;

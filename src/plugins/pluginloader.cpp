@@ -1,6 +1,6 @@
 #include "pluginLoader.h"
-#include <MzCommon.h>
-using namespace MzCommon;
+#include <cMzCommon.h>
+using namespace cMzCommon;
 
 vector<PLUGIN_ST> m_arrPluginObj;
 

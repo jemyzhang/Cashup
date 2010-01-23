@@ -2,7 +2,7 @@
 #define _UI_ACCOUNTS_H
 
 // include the MZFC library header file
-#include <MzCommonDll.h>
+#include <cMzCommonDll.h>
 #include <db-engine.h>
 #include <ui_base.h>
 

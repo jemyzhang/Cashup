@@ -1,7 +1,7 @@
 #ifndef _UI_ICONBUTTON_H
 #define _UI_ICONBUTTON_H
 
-#include <MzCommonDll.h>
+#include <cMzCommonDll.h>
 
 
 class COMMON_API UiIconButton : public UiWin

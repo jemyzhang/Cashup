@@ -1,6 +1,6 @@
 #include "moduleLoader.h"
-#include <MzCommon.h>
-using namespace MzCommon;
+#include <cMzCommon.h>
+using namespace cMzCommon;
 
 vector<MODULE_ST> m_arrModuleObj;
 

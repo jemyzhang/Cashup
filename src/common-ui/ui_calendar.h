@@ -1,5 +1,5 @@
 #pragma once
-#include <MzCommonDll.h>
+#include <cMzCommonDll.h>
 #include <ui_base.h>
 
 class UiGrid;
