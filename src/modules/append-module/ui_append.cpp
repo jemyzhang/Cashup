@@ -33,7 +33,8 @@ void Ui_AppendWnd::DelayShow(){
 	DateTime::waitms(1);
     int id = 0;
     int y = 0,m = 0,d = 0;
-    ::MzAccountsDialog(id,0,m_hWnd);
+    MzCategoriesDialog(id,0,m_hWnd);
+    //::MzAccountsDialog(id,0,m_hWnd);
     //::MzCalendarDialog(y,m,d,m_hWnd);
     //double val = 0.0;
     //::MzCalculatorDialog(val,m_hWnd);

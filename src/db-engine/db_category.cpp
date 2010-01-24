@@ -19,7 +19,7 @@ namespace cashdatabase {
 			this->conn.sqlconn.executenonquery(
 				L"create table if not exists '"
 				TABLE_CATEGORY
-				L"' (ID numeric primary key,NAME text NOT NULL,TYPE integer NOT NULL,PARENTID numeric NOT NULL,LEVEL integer);"
+				L"' (ID numeric primary key,NAME text NOT NULL,TYPE integer NOT NULL,PARENTID numeric NOT NULL,LEVEL integer,SHOW integer);"
 				);
 		}CATCH(exception &ex){
 			db_out(ex.what());
@@ -29,17 +29,17 @@ namespace cashdatabase {
 		if(!bRet) return bRet;	//创建table失败
 
 		CONST_CATEGORY default_categories[] = {
-			{0, IDS_STR_EXPENSE, CT_OUTGOING, -1, 0},
-			{1, IDS_STR_INCOME, CT_INCOME, -1, 0},
-			{2, IDS_STR_TRANSFER, CT_TRANSFER, -1, 2},	//设置为无子目录
+			{0, IDS_STR_EXPENSE, CT_OUTGOING, -1, 0,true},
+			{1, IDS_STR_INCOME, CT_INCOME, -1, 0,true},
+			{2, IDS_STR_TRANSFER, CT_TRANSFER, -1, 0,true},	//设置为无子目录
 		};
 		int aSets = sizeof (default_categories) / sizeof (CONST_CATEGORY);
 		TRY{
 			sqlite3_command cmd(this->conn.sqlconn,
 				L"insert into '"
 				TABLE_CATEGORY
-				L"' (ID,NAME,TYPE,PARENTID,LEVEL) "
-				L"values(?,?,?,?,?);"
+				L"' (ID,NAME,TYPE,PARENTID,LEVEL,SHOW) "
+				L"values(?,?,?,?,?,1);"
 				);
 			for(int i = 0; i < aSets; i++){
 				cmd.bind(1,static_cast<int>(default_categories[i].id));
@@ -61,9 +61,9 @@ namespace cashdatabase {
 	//恢复：默认分类
 	bool db_category::restore() {
 		CONST_CATEGORY default_categories[] = {
-			{0, IDS_STR_EXPENSE, CT_OUTGOING, -1, 0},
-			{1, IDS_STR_INCOME, CT_INCOME, -1, 0},
-			{2, IDS_STR_TRANSFER, CT_TRANSFER, -1, 2},	//设置为无子目录
+			{0, IDS_STR_EXPENSE, CT_OUTGOING, -1, 0,true},
+			{1, IDS_STR_INCOME, CT_INCOME, -1, 0,true},
+			{2, IDS_STR_TRANSFER, CT_TRANSFER, -1, 0,true},	//设置为无子目录
 		};
 
 		bool bRet = true;
@@ -93,8 +93,8 @@ namespace cashdatabase {
 			sqlite3_command cmd(this->conn.sqlconn,
 				L"insert into '"
 				TABLE_CATEGORY
-				L"' (ID,NAME,TYPE,PARENTID,LEVEL)"
-				L" values(?,?,?,?,?);");
+				L"' (ID,NAME,TYPE,PARENTID,LEVEL,SHOW)"
+				L" values(?,?,?,?,?,1);");
 
 			cmd.bind(1,static_cast<int>(cat->id));
 			cmd.bind(2,cat->name, lstrlen(cat->name)*2);
@@ -285,6 +285,7 @@ namespace cashdatabase {
 				r->type = static_cast<TRANSACT_TYPE>(reader.getint(2));
 				r->parentid = reader.getint(3);
 				r->level = reader.getint(4);
+                r->show = reader.getint(5) > 0;
 
 				v_categories.push_back(r);
 			}
@@ -321,6 +322,21 @@ namespace cashdatabase {
 		}
 		return false;
 	}
+
+    void db_category::setstatus(int id, bool b){
+		TRY{
+			sqlite3_command cmd(this->conn.sqlconn,
+				L"update '"
+				TABLE_CATEGORY
+				L"' set SHOW=? where ID=? or PARENTID=?;");
+			cmd.bind(1,(int)b);
+			cmd.bind(2,id);
+			cmd.bind(3,id);
+            cmd.executenonquery();
+		}CATCH(exception &ex){
+			db_out(ex.what());
+		}
+    }
 
 	//检查是否重复分类：按照name判断
 	int db_category::duplicated(LPCATEGORY pc, bool *bconflict){
@@ -359,6 +375,51 @@ namespace cashdatabase {
 				L"select * from '"
 				TABLE_CATEGORY
 				L"' where LEVEL=? order by NAME collate pinyin;");
+			bRet = search(cmd);
+		}CATCH(exception &ex){
+			db_out(ex.what());
+			bRet = false;
+		}
+
+		return bRet;
+	}
+
+    //获取分类：根据类型，排序按照parentid
+	bool db_category::query_type(TRANSACT_TYPE t){
+		bool bRet = true;
+
+		TRY{
+            if(t == CT_ALL){
+			    sqlite3_command cmd(this->conn.sqlconn,
+				    L"select * from '"
+				    TABLE_CATEGORY
+				    L"' where PARENTID<>-1 order by PARENTID,NAME collate pinyin;");
+			    bRet = search(cmd);
+            }else{
+			    sqlite3_command cmd(this->conn.sqlconn,
+				    L"select * from '"
+				    TABLE_CATEGORY
+				    L"' where TYPE=? and PARENTID<>-1 order by PARENTID,NAME collate pinyin;");
+                cmd.bind(1,(int)t);
+			    bRet = search(cmd);
+            }
+		}CATCH(exception &ex){
+			db_out(ex.what());
+			bRet = false;
+		}
+
+		return bRet;
+	}
+
+	//获取最上层分类类别
+	bool db_category::query_main(){
+		bool bRet = true;
+
+		TRY{
+			sqlite3_command cmd(this->conn.sqlconn,
+				L"select * from '"
+				TABLE_CATEGORY
+				L"' where PARENTID=-1;");
 			bRet = search(cmd);
 		}CATCH(exception &ex){
 			db_out(ex.what());

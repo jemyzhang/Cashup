@@ -19,4 +19,8 @@ bool MzCalculatorDialog(double &val, HWND parent = 0);
 //retval: true: ID_OK false: ID_CANCEL
 bool MzAccountsDialog(int &id, int mode = 0, HWND parent = 0);
 
+//显示分类列表
+//mode: 0:普通模式 1:单选择模式（不可编辑删除新增）
+//retval: true: ID_OK false: ID_CANCEL
+bool MzCategoriesDialog(int &id, int mode = 0, HWND parent = 0);
 

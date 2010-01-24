@@ -60,6 +60,7 @@
 #define IDB_PNG_RELOADALERT             119
 #define IDS_STR_RETURN                  119
 #define IDS_STR_PERSON_CONTACT          119
+#define IDS_SELECT                      119
 #define IDB_PNG_L_LRELEASE              120
 #define IDS_STR_OK                      120
 #define IDS_STR_PERSON_ALL              120

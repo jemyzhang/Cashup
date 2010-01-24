@@ -7,3 +7,4 @@ EXPORTS
 	MzCalendarDialog @1
 	MzCalculatorDialog @2
 	MzAccountsDialog @3
+	MzCategoriesDialog @4

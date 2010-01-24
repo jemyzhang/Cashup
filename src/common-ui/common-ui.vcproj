@@ -236,6 +236,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ui_categories.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\UiIconButton.cpp"
 				>
 			</File>
@@ -278,6 +282,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ui_categories.h"
+				>
+			</File>
+			<File
 				RelativePath=".\UiIconButton.h"
 				>
 			</File>
@@ -293,6 +301,14 @@
 			>
 			<File
 				RelativePath=".\image\bg.png"
+				>
+			</File>
+			<File
+				RelativePath=".\image\Collapsed.png"
+				>
+			</File>
+			<File
+				RelativePath=".\image\Expaned.png"
 				>
 			</File>
 			<File

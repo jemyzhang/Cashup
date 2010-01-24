@@ -87,6 +87,7 @@ typedef enum tagTRANSACT_TYPE {
     CT_INCOME = 0,
     CT_OUTGOING = 1,
     CT_TRANSFER = 2,
+    CT_ALL  =   3,
 } TRANSACT_TYPE;
 
 typedef struct tagCONST_CATEGORY {
@@ -95,6 +96,7 @@ typedef struct tagCONST_CATEGORY {
     TRANSACT_TYPE type;
     unsigned int parentid;
     char level; //0-1-2
+    bool show;
 } CONST_CATEGORY, *LPCONST_CATEGORY;
 
 typedef struct tagCATEGORY {
@@ -103,10 +105,12 @@ typedef struct tagCATEGORY {
     TRANSACT_TYPE type;
     unsigned int parentid;
     char level; //0-1-2
+    bool show;
 	tagCATEGORY(){
 		this->id = 0; this->type = CT_INCOME;
 		this->parentid = 1; this->level = 2;
-		this->name = 0; 
+		this->name = 0;
+        this->show = true;
 	}
 	~tagCATEGORY(){
 		if(name) { delete[] name; name = 0; }
@@ -278,6 +282,12 @@ namespace cashdatabase {
 	//(根据名称)检测是否有重复类别，如果有则返回类别id，无则返回-1
 	//返回值：冲突情况， true表示冲突
 		int duplicated(LPCATEGORY,bool *bconflict = 0);
+        void setstatus(int id, bool b); //设置列表中是否显示, 
+    public:
+        bool query_main();   //获取最上层分类类别，存储在v_categories中
+        bool query_type(TRANSACT_TYPE t);   //获取分类列表：按照类型，排序按照name,parentid
+   		int query_size(){	return v_categories.size(); }
+		LPCATEGORY query_at(int n) { return v_categories.at(n);}
 	private:
 		bool search(sqlite3_command& cmd);
 		void clear_result();
