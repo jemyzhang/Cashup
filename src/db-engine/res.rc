@@ -81,6 +81,11 @@ BEGIN
     IDS_STR_OK              "确定"
 END
 
+STRINGTABLE 
+BEGIN
+    IDS_STR_PERSON_INSTITUTION "组织机构"
+END
+
 #endif    // 中文(中华人民共和国) resources
 /////////////////////////////////////////////////////////////////////////////
 

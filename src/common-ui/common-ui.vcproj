@@ -240,6 +240,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ui_person.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\UiIconButton.cpp"
 				>
 			</File>
@@ -283,6 +287,10 @@
 			</File>
 			<File
 				RelativePath=".\ui_categories.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ui_person.h"
 				>
 			</File>
 			<File

@@ -9,6 +9,7 @@ using namespace cMzCommon;
 #include "ui_calculator.h"
 #include "ui_accounts.h"
 #include "ui_categories.h"
+#include "ui_person.h"
 
 #ifdef _DEBUG
 #pragma comment(lib,"cMzCommond.lib")
@@ -87,6 +88,22 @@ bool MzAccountsDialog(int &id, int mode, HWND parent){
 bool MzCategoriesDialog(int &id, int mode, HWND parent){
     bool bret = false;
     Ui_CategoriesWnd *pdlg = new Ui_CategoriesWnd;
+    pdlg->EnableImageBackground(false);
+    //pdlg->SetMode(mode);
+    RECT rcWork = MzGetWorkArea();
+    pdlg->Create(rcWork.left, rcWork.top + RECT_HEIGHT(rcWork)/4, RECT_WIDTH(rcWork), RECT_HEIGHT(rcWork)*3/4,
+        parent, 0, WS_POPUP);
+    if(pdlg->DoModal() == ID_OK){
+        //id = pdlg->GetSelectionIndex();
+        bret = true;
+    }
+    delete pdlg;
+    return bret;
+}
+
+bool MzPersonDialog(int &id, int mode, HWND parent){
+    bool bret = false;
+    Ui_PersonsWnd *pdlg = new Ui_PersonsWnd;
     pdlg->EnableImageBackground(false);
     //pdlg->SetMode(mode);
     RECT rcWork = MzGetWorkArea();

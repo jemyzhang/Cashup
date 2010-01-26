@@ -49,7 +49,7 @@ namespace cashdatabase {
 	}
 
 	bool db_person::load(){
-		return person_list(PRSN_ALL);
+		return query_type(PRSN_ALL);
 	}
 
 	//新增：人员
@@ -189,20 +189,20 @@ namespace cashdatabase {
 	};
 
 	//获取：人员类型：名称
-	int db_person::typenameid(PERSON_TYPE tid){
+	wchar_t *db_person::type_name(int idx){
+        if(tname){
+            delete tname;
+            tname = NULL;
+        }
 		int tsize = sizeof(PersonTypeStrID)/sizeof(PersonTypeStrID[0]);
-		if(tid >= tsize) tid = PRSN_FAMILY;
-		return PersonTypeStrID[tid];
-	}
-
-	//获取：人员：类型名称列表
-	const int* db_person::typenameids(int *nsize){
-		if(nsize) *nsize = sizeof(PersonTypeStrID)/sizeof(PersonTypeStrID[0]);
-		return PersonTypeStrID;
+        if(idx < tsize){
+            C::newstrcpy(&tname,getLngResString(PersonTypeStrID[idx]).C_Str());
+        }
+        return tname;
 	}
 
 	//获取：人员列表：根据类型
-	bool db_person::person_list(PERSON_TYPE t){
+	bool db_person::query_type(PERSON_TYPE t){
 		bool bRet = false;
 		TRY{
 			if( t == PRSN_ALL ){
@@ -233,6 +233,7 @@ namespace cashdatabase {
 				delete v_persons.at(i);
 			}
 			v_persons.clear();
+            if(tname) delete tname;
 		}CATCH(exception &ex){
 			db_out(ex.what());
 		}

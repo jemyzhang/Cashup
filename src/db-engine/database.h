@@ -299,13 +299,11 @@ namespace cashdatabase {
 
 	class COMMON_API db_person {
 	public:
-		db_person(db_connection &conn) : conn(conn) {}
+		db_person(db_connection &conn) : conn(conn) { tname = NULL;}
 		~db_person() { clear_result(); }
 	public:
 		bool load();
 		bool create();
-		int typenameid(PERSON_TYPE tid);
-		const int* typenameids(int *sz);
 		wchar_t* name(int id);
 		LPPERSON person(int id);
 		bool append(LPPERSON);
@@ -313,8 +311,15 @@ namespace cashdatabase {
 		bool remove(int id);
 		//检测是否有重复记录，如果有则返回记录id，无则返回-1
 		int	duplicated(LPPERSON);
-		bool person_list(PERSON_TYPE); //result stored in search list
 		int maxid();
+    public:
+   		wchar_t* type_name(int idx);
+    private:
+        wchar_t* tname;
+    public:
+        bool query_type(PERSON_TYPE t); //result stored in search list
+        int query_size() { return v_persons.size(); }
+        LPPERSON query_at(int n) { return v_persons.at(n); }
 	private:
 		bool search(sqlite3_command& cmd);
 		void clear_result();

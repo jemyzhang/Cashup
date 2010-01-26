@@ -8,3 +8,4 @@ EXPORTS
 	MzCalculatorDialog @2
 	MzAccountsDialog @3
 	MzCategoriesDialog @4
+	MzPersonDialog @5
