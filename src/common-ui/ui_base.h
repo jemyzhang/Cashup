@@ -33,6 +33,8 @@ public:
     //设置背景图片，平铺模式
     void SetBackgroundImage(ImagingHelper *img);
 	virtual BOOL Create(int xPos, int yPos, int width, int height, HWND hwndParent=NULL, int uID = NULL, DWORD style=WS_CHILD, DWORD exstyle=0);
+    virtual int DoModal(BOOL bDisableOwner = TRUE); //重载，当DoModal时发送置顶消息MZ_MW_CHANGE_TOPWND
+    void EndModal(int nRet); //重载，当EndModal时发送消息MZ_MW_CHILDWND_QUIT
 private:
    	HDC pMemDC;             //定义内存DC指针
 	HBITMAP pBitmap;        //定义内存位图指针

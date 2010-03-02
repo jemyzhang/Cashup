@@ -38,8 +38,6 @@ BOOL Ui_BaseWnd::OnInitDialog() {
 	AddUiWin(&m_ScrollWin);
 
     SetBackgroundImage(getResImage(IDB_PNG_BG));
-	//设置顶层HWND
-	::PostMessage(GetParent(),MZ_MW_CHANGE_TOPWND,(WPARAM)m_hWnd,0);
 	DateTime::waitms(1);
 
 	::SetTimer(m_hWnd,0x8001,100,NULL);
@@ -55,15 +53,23 @@ void Ui_BaseWnd::OnTimer(UINT_PTR nIDEvent){
 
 LRESULT Ui_BaseWnd::MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam) {
     switch(message){
-        case MZ_MW_CHILDWND_QUIT:
+        case MZ_MW_REQ_CHANGE_TITLE:
+        case MZ_MW_REQ_CHANGE_TOPWND:
+        case MZ_MW_ACK_WND_ISQUIT:
+        {
+            dbg_printf("message upload to %04x by %04x: %04x\n",GetParent(),wParam, message);
+            ::PostMessageW(GetParent(),message,wParam,lParam);  //收到子窗体发来的消息后，继续往导航窗体发送
+            return 0;
+        }
+        case MZ_MW_REQ_CHILDWND_QUIT:
         {
 		    EndModal(ID_OK);
-		    return 0;
+		    break;
 	    }
-        case MZ_MW_CHILDWND_SHOW:
+        case MZ_MW_REQ_CHILDWND_SHOW:
         {
             ShowWindow(SW_SHOW);
-            return 0;
+            break;
         }
     }
     return CMzWndEx::MzDefWndProc(message, wParam, lParam);
@@ -121,4 +127,19 @@ void Ui_BaseWnd::SetSizeMode(bool fixed){
 
 void Ui_BaseWnd::EnableImageBackground(bool en){
     bImageBackground = en;
+}
+
+int Ui_BaseWnd::DoModal(BOOL bDisableOwner){
+	//设置顶层HWND
+    dbg_printf("DoModal:%04x\n",m_hWnd);
+	PostMessage(MZ_MW_REQ_CHANGE_TOPWND,(WPARAM)m_hWnd,0);
+    return CMzWndEx::DoModal(bDisableOwner);
+}
+
+void Ui_BaseWnd::EndModal(int nRet){
+	//设置顶层HWND
+    dbg_printf("EndModal:%04x\n",m_hWnd);
+	PostMessage(MZ_MW_ACK_WND_ISQUIT,(WPARAM)m_hWnd,0);
+    DateTime::waitms(1);
+    CMzWndEx::EndModal(nRet);
 }

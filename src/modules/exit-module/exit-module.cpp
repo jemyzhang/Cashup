@@ -57,7 +57,7 @@ LPWSTR ExitModule::GetModuleAuthor() {
 
 void ExitModule::Show(HWND m_hWnd) {
     //œ‘ æµº∫Ω¿∏√˚≥∆
-    ::PostMessageW(m_hWnd,MZ_MW_CHANGE_TITLE,IDS_MODULE_NAME,(LPARAM)instHandle);
+    ::PostMessageW(m_hWnd,MZ_MW_REQ_CHANGE_TITLE,IDS_MODULE_NAME,(LPARAM)instHandle);
     DateTime::waitms(1);
 
 	if(MzMessageBoxEx(m_hWnd,L"Exit Now?",L"Warning",MZ_YESNO) != 1){

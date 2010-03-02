@@ -50,7 +50,7 @@ BOOL Ui_BackupWnd::OnInitDialog() {
     m_List.EnableNotifyMessage(true);
     AddUiWin(&m_List);
 
-	::PostMessage(GetParent(),MZ_MW_CHANGE_TITLE,IDS_MODULE_NAME,(LPARAM)instHandle);
+	::PostMessage(GetParent(),MZ_MW_REQ_CHANGE_TITLE,IDS_MODULE_NAME,(LPARAM)instHandle);
 	DateTime::waitms(1);
 
 
@@ -157,14 +157,14 @@ LRESULT Ui_BackupWnd::MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam) {
 			 	//	m_Toolbar.SetButton(1, true, true, PluginGetLngResString(IDS_STR_OPERATE).C_Str());
 					//m_Toolbar.Invalidate();
                 }
-                return 0;
+                break;
             }
             if (nID == MZ_IDC_BACKUP_LIST && nNotify == MZ_MN_MOUSEMOVE) {
                 m_List.SetSelectedIndex(-1);
                 m_List.Invalidate();
 			 //	m_Toolbar.SetButton(1, true, false, PluginGetLngResString(IDS_STR_OPERATE).C_Str());
 				//m_Toolbar.Invalidate();
-               return 0;
+               break;
             }
        }
     }

@@ -343,7 +343,7 @@ BOOL Ui_CalculatorWnd::OnInitDialog() {
     pcore = new CalcCore;
 	pcore->InitStack();
     ui_out("calculator initialized.\n");
-    ::PostMessage(GetParent(),MZ_MW_CHANGE_TITLE,IDS_TITLE_CALCULATOR,(LPARAM)hHandle);
+    ::PostMessage(GetParent(),MZ_MW_REQ_CHANGE_TITLE,IDS_TITLE_CALCULATOR,(LPARAM)hHandle);
 	DateTime::waitms(1);
     
     return TRUE;

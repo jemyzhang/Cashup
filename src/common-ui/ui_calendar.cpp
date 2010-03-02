@@ -391,7 +391,7 @@ BOOL Ui_CalendarWnd::OnInitDialog() {
 	m_pCalendar->EnableNotifyMessage(true);
     AddUiWin(m_pCalendar);
 
-    ::PostMessage(GetParent(),MZ_MW_CHANGE_TITLE,IDS_TITLE_CALENDAR,(LPARAM)hHandle);
+    ::PostMessage(GetParent(),MZ_MW_REQ_CHANGE_TITLE,IDS_TITLE_CALENDAR,(LPARAM)hHandle);
 	DateTime::waitms(1);
 
     return TRUE;

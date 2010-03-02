@@ -27,15 +27,11 @@ BOOL Ui_SearchWnd::OnInitDialog() {
 }
 
 void Ui_SearchWnd::DelayShow(){
-    ::PostMessage(GetParent(),MZ_MW_CHANGE_TITLE,IDS_MODULE_NAME,(LPARAM)instHandle);
+    ::PostMessage(GetParent(),MZ_MW_REQ_CHANGE_TITLE,IDS_MODULE_NAME,(LPARAM)instHandle);
 	DateTime::waitms(1);
 }
 
 LRESULT Ui_SearchWnd::MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam) {
-    if(message == MZ_MW_CHANGE_TITLE || message == MZ_MW_CHANGE_TOPWND) {
-        ::PostMessageW(GetParent(),message,wParam,lParam);  //收到子窗体发来的消息后，继续往导航窗体发送
-        return 1;
-    }
     return Ui_BaseWnd::MzDefWndProc(message, wParam, lParam);
 }
 

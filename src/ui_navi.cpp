@@ -51,6 +51,8 @@ void Ui_NaviWnd::OnTimer(UINT_PTR nIDEvent){
 	if(nIDEvent == 0x8001){
 		::KillTimer(m_hWnd,0x8001);
 		ShowMainWindow();
+            dbg_printf("navi: %04x\n",m_hWnd);
+
 	}
 }
 
@@ -60,21 +62,28 @@ LRESULT Ui_NaviWnd::MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam) {
 		{
 			if(LOWORD(wParam)!=WA_INACTIVE){
 				if(topWnd.size() != 0 && ::GetForegroundWindow() != topWnd.back()){
-                    ::PostMessage(topWnd.back(),MZ_MW_CHILDWND_SHOW,0,0);
+                    ::PostMessage(topWnd.back(),MZ_MW_REQ_CHILDWND_SHOW,0,0);
 				}
 			}
 			break;
 		}
-		case MZ_MW_CHANGE_TITLE:
+		case MZ_MW_REQ_CHANGE_TITLE:
 		{
 			SetNaviTitle(MzLoadString(wParam,reinterpret_cast<HANDLE>(lParam)).C_Str());
-			return 0;
+			break;
 		}
-		case MZ_MW_CHANGE_TOPWND:
+		case MZ_MW_REQ_CHANGE_TOPWND:
 		{
 			topWnd.push_back(reinterpret_cast<HWND>(wParam));
-			return 0;
+            dbg_printf("pushback: %04x\n",wParam);
+			break;
 		}
+        case MZ_MW_ACK_WND_ISQUIT:
+        {
+            dbg_printf("pop_back: %04x\n",topWnd.back());
+    		topWnd.pop_back();
+            break;
+        }
 	}
     return CMzWndEx::MzDefWndProc(message, wParam, lParam);
 }
@@ -82,10 +91,8 @@ LRESULT Ui_NaviWnd::MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam) {
 void Ui_NaviWnd::OnMzCommand(WPARAM wParam, LPARAM lParam) {
     UINT_PTR id = LOWORD(wParam);
 	if(id == MZ_IDC_TITLE){
-		if(topWnd.size() <= 1) return;
-		HWND test = topWnd.back();
-		::PostMessage(test,MZ_MW_CHILDWND_QUIT,0,0);
-		topWnd.pop_back();
+		if(topWnd.size() < 1) return;
+		::PostMessage(topWnd.back(),MZ_MW_REQ_CHILDWND_QUIT,0,0);
 	}
 }
 

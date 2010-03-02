@@ -81,6 +81,7 @@ BOOL Ui_MainWnd::OnInitDialog() {
 
 void Ui_MainWnd::DelayShow(){
 	ShowModules();
+    dbg_printf("main: %04x\n",m_hWnd);
 }
 
 void Ui_MainWnd::AppendModule(CModuleBase *obj){
@@ -93,19 +94,15 @@ void Ui_MainWnd::AppendModule(CModuleBase *obj){
 }
 
 void Ui_MainWnd::ShowModules(){
-    PostMessageW(MZ_MW_CHANGE_TITLE,IDS_MODULE_LOADING,(LPARAM)(MzGetInstanceHandle()));
+    PostMessageW(MZ_MW_REQ_CHANGE_TITLE,IDS_MODULE_LOADING,(LPARAM)(MzGetInstanceHandle()));
 	DateTime::waitms(1);
 	::LoadModulesWithCallback(reinterpret_cast<void*>(this),&Ui_MainWnd::static_callback);
-    PostMessageW(MZ_MW_CHANGE_TITLE,IDS_TTL_MAIN,(LPARAM)(MzGetInstanceHandle()));
+    PostMessageW(MZ_MW_REQ_CHANGE_TITLE,IDS_TTL_MAIN,(LPARAM)(MzGetInstanceHandle()));
 	DateTime::waitms(1);
 }
 
 LRESULT Ui_MainWnd::MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam) {
-    if(message == MZ_MW_CHANGE_TITLE || message == MZ_MW_CHANGE_TOPWND) {
-        ::PostMessageW(GetParent(),message,wParam,lParam);  //收到子窗体发来的消息后，继续往导航窗体发送
-        return 1;
-    }
-    return CMzWndEx::MzDefWndProc(message, wParam, lParam);
+    return Ui_BaseWnd::MzDefWndProc(message, wParam, lParam);
 }
 
 void Ui_MainWnd::OnMzCommand(WPARAM wParam, LPARAM lParam) {
@@ -114,6 +111,6 @@ void Ui_MainWnd::OnMzCommand(WPARAM wParam, LPARAM lParam) {
 		MODULE_ST module = m_arrModuleObj.at(id - IDC_MODULE_BEGIN);
 		//m_Title.SetText(module.pObj->GetModuleName());
 		module.pObj->Show(m_hWnd);
-        PostMessageW(MZ_MW_CHANGE_TITLE,IDS_TTL_MAIN,(LPARAM)MzGetInstanceHandle());
+        PostMessageW(MZ_MW_REQ_CHANGE_TITLE,IDS_TTL_MAIN,(LPARAM)MzGetInstanceHandle());
 	}
 }

@@ -116,7 +116,7 @@ BOOL Ui_AccountsWnd::OnInitDialog() {
     m_pList->EnableNotifyMessage(true);
     AddUiWin(m_pList);
 
-    ::PostMessage(GetParent(),MZ_MW_CHANGE_TITLE,IDS_TITLE_ACCOUNTS,(LPARAM)hHandle);
+    ::PostMessage(GetParent(),MZ_MW_REQ_CHANGE_TITLE,IDS_TITLE_ACCOUNTS,(LPARAM)hHandle);
 	DateTime::waitms(1);
 	return TRUE;
 }

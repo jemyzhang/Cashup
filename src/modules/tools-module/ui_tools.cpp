@@ -52,18 +52,14 @@ void Ui_ToolsWnd::AppendPlugin(CPluginBase *obj){
 
 void Ui_ToolsWnd::ShowPlugins(){
         //显示导航栏名称
-    ::PostMessage(GetParent(),MZ_MW_CHANGE_TITLE,IDS_LOADING,(LPARAM)instHandle);
+    ::PostMessage(GetParent(),MZ_MW_REQ_CHANGE_TITLE,IDS_LOADING,(LPARAM)instHandle);
 	DateTime::waitms(1);
 	::LoadPluginsWithCallback(reinterpret_cast<void*>(this),&Ui_ToolsWnd::static_callback);
-    ::PostMessage(GetParent(),MZ_MW_CHANGE_TITLE,IDS_MODULE_NAME,(LPARAM)instHandle);
+    ::PostMessage(GetParent(),MZ_MW_REQ_CHANGE_TITLE,IDS_MODULE_NAME,(LPARAM)instHandle);
 	DateTime::waitms(1);
 }
 
 LRESULT Ui_ToolsWnd::MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam) {
-    if(message == MZ_MW_CHANGE_TITLE || message == MZ_MW_CHANGE_TOPWND) {
-        ::PostMessageW(GetParent(),message,wParam,lParam);  //收到子窗体发来的消息后，继续往导航窗体发送
-        return 1;
-    }
     return Ui_BaseWnd::MzDefWndProc(message, wParam, lParam);
 }
 
@@ -72,7 +68,7 @@ void Ui_ToolsWnd::OnMzCommand(WPARAM wParam, LPARAM lParam) {
 	if(id >= IDC_MODULE_BEGIN && id <= IDC_MODULE_BEGIN + 16){
 		PLUGIN_ST plug = m_arrPluginObj.at(id - IDC_MODULE_BEGIN);
 		plug.pObj->Show(m_hWnd);
-        ::PostMessage(GetParent(),MZ_MW_CHANGE_TITLE,IDS_MODULE_NAME,(LPARAM)instHandle);
+        ::PostMessage(GetParent(),MZ_MW_REQ_CHANGE_TITLE,IDS_MODULE_NAME,(LPARAM)instHandle);
 	}
 }
 
