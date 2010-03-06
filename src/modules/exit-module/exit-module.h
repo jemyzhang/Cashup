@@ -4,19 +4,19 @@
 #pragma once
 
 // include the MZFC library header file
-#include <modulebase.h>
+#include <pluginbase.h>
 #include "resource.h"
 
-class ExitModule : public CModuleBase
+class ExitModule : public CPluginBase
 {
 public:
 	ExitModule();
 public:
-	virtual LPCTSTR GetModuleName();
-	virtual LPWSTR GetModuleIntro();
-	virtual LPWSTR GetModuleAuthor();
+	virtual LPCTSTR GetName();
+	virtual LPCTSTR GetIntro();
+	virtual LPCTSTR GetAuthor();
 	virtual ImagingHelper* GetIconImage();
-	virtual ModuleVersion_st GetModuleVersion();
+	virtual PluginVersion_st GetVersion();
 
 	virtual void Show(HWND m_hWnd = 0);
 	virtual void Interface(int k) {}

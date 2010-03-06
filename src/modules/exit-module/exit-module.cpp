@@ -36,21 +36,21 @@ ExitModule::ExitModule(){
 }
 
 ImagingHelper* ExitModule::GetIconImage() {
-	return ModuleGetResImage(IDB_PNG_ICON); 
+	return PluginGetResImage(IDB_PNG_ICON); 
 }
 
-LPCTSTR ExitModule::GetModuleName() {
+LPCTSTR ExitModule::GetName() {
 	if(name == 0){
-		C::newstrcpy(&name,ModuleGetLngResString(IDS_MODULE_NAME).C_Str());
+		C::newstrcpy(&name,PluginGetLngResString(IDS_MODULE_NAME).C_Str());
 	}
     return name;
 }
 
-LPWSTR ExitModule::GetModuleIntro() {
+LPCTSTR ExitModule::GetIntro() {
 	return L"Exit Application";
 }
 
-LPWSTR ExitModule::GetModuleAuthor() {
+LPCTSTR ExitModule::GetAuthor() {
 	return L"JEMYZHANG";
 }
 
@@ -68,7 +68,7 @@ void ExitModule::Show(HWND m_hWnd) {
 	}
 }
 
-ModuleVersion_st ExitModule::GetModuleVersion(){
-	ModuleVersion_st ver = { 1, 0, 0 };
+PluginVersion_st ExitModule::GetVersion(){
+	PluginVersion_st ver = { 1, 0, 0 };
 	return ver;
 }

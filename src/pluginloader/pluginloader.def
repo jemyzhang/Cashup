@@ -1,0 +1,12 @@
+; db-engine.def : 声明 DLL 的模块参数。
+
+LIBRARY      "pluginloader"
+
+EXPORTS
+    ; 此处可以是显式导出
+	LoadPlugins @1
+	UnLoadPlugins @2
+	UnloadPlugin @3
+	ReloadPlugin @4
+	GetPluginSize @5
+	GetPlugin @6

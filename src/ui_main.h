@@ -2,7 +2,7 @@
 #define _UI_MAIN_H
 
 #include <ui_base.h>
-#include <moduleloader.h>
+#include <pluginloader.h>
 
 
 // Main window derived from CMzWndEx
@@ -32,8 +32,8 @@ protected:
 private:
 	virtual void DelayShow();
 public:
-	void AppendModule(CModuleBase *obj);
-	static void static_callback(void* obj, CModuleBase *mol)
+	void AppendModule(CPluginBase *obj);
+	static void static_callback(void* obj, CPluginBase *mol)
 	{
 		if(obj == NULL) return;
 		return reinterpret_cast<Ui_MainWnd*>(obj)->AppendModule(mol);

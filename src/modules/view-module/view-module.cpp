@@ -29,21 +29,21 @@ BOOL WINAPI modules_createOjbect(void **pobj){
 }
 
 ImagingHelper* ViewModule::GetIconImage() {
-	return ModuleGetResImage(IDB_PNG_ICON); 
+	return PluginGetResImage(IDB_PNG_ICON); 
 }
 
-LPCTSTR ViewModule::GetModuleName() {
+LPCTSTR ViewModule::GetName() {
 	if(name == 0){
-		C::newstrcpy(&name,ModuleGetLngResString(IDS_MODULE_NAME).C_Str());
+		C::newstrcpy(&name,PluginGetLngResString(IDS_MODULE_NAME).C_Str());
 	}
     return name;
 }
 
-LPWSTR ViewModule::GetModuleIntro() {
+LPCTSTR ViewModule::GetIntro() {
 	return L"View Transactions";
 }
 
-LPWSTR ViewModule::GetModuleAuthor() {
+LPCTSTR ViewModule::GetAuthor() {
 	return L"JEMYZHANG";
 }
 
@@ -64,7 +64,7 @@ void ViewModule::Show(HWND m_hWnd) {
 	}
 }
 
-ModuleVersion_st ViewModule::GetModuleVersion(){
-	ModuleVersion_st ver = { 1, 0, 0 };
+PluginVersion_st ViewModule::GetVersion(){
+	PluginVersion_st ver = { 1, 0, 0 };
 	return ver;
 }

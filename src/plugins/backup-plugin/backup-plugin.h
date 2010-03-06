@@ -10,11 +10,11 @@
 class BackupPlugin : public CPluginBase
 {
 public:
-	virtual LPWSTR GetPluginName();
-	virtual LPWSTR GetPluginIntro();
-	virtual LPWSTR GetPluginAuthor();
+	virtual LPCTSTR GetName();
+	virtual LPCTSTR GetIntro();
+	virtual LPCTSTR GetAuthor();
 	virtual ImagingHelper* GetIconImage();
-	virtual PluginVersion_st GetPluginVersion();
+	virtual PluginVersion_st GetVersion();
 
 	virtual void Show(HWND m_hWnd = 0);
 	virtual void Interface(int k) {}

@@ -13,7 +13,7 @@ extern HINSTANCE instHandle;
 class UiPluginItem : public UiIconButton{
 public:
 	UiPluginItem(CPluginBase* obj, int nID) : UiIconButton() {
-		this->SetText(obj->GetPluginName());
+		this->SetText(obj->GetName());
 		this->SetImage(obj->GetIconImage());
 		this->SetID(nID);
 	}
@@ -54,7 +54,8 @@ void Ui_ToolsWnd::ShowPlugins(){
         //œ‘ æµº∫Ω¿∏√˚≥∆
     ::PostMessage(GetParent(),MZ_MW_REQ_CHANGE_TITLE,IDS_LOADING,(LPARAM)instHandle);
 	DateTime::waitms(1);
-	::LoadPluginsWithCallback(reinterpret_cast<void*>(this),&Ui_ToolsWnd::static_callback);
+	::LoadPlugins(L"plugins",L"plg",L"plugins_createOjbect",
+		reinterpret_cast<void*>(this),&Ui_ToolsWnd::static_callback);
     ::PostMessage(GetParent(),MZ_MW_REQ_CHANGE_TITLE,IDS_MODULE_NAME,(LPARAM)instHandle);
 	DateTime::waitms(1);
 }
@@ -66,7 +67,7 @@ LRESULT Ui_ToolsWnd::MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam) {
 void Ui_ToolsWnd::OnMzCommand(WPARAM wParam, LPARAM lParam) {
     UINT_PTR id = LOWORD(wParam);
 	if(id >= IDC_MODULE_BEGIN && id <= IDC_MODULE_BEGIN + 16){
-		PLUGIN_ST plug = m_arrPluginObj.at(id - IDC_MODULE_BEGIN);
+		PLUGIN plug = GetPlugin(id - IDC_MODULE_BEGIN);
 		plug.pObj->Show(m_hWnd);
         ::PostMessage(GetParent(),MZ_MW_REQ_CHANGE_TITLE,IDS_MODULE_NAME,(LPARAM)instHandle);
 	}

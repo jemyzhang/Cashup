@@ -24,15 +24,15 @@ using namespace cMzCommon;
 #endif
 
 #define VER_STRING L"3.00"COMPILEL
-#define BUILD_STRING	L"20100118" COMPILEM
+#define BUILD_STRING	L"201003060001" COMPILEM
 
 extern ImagingHelper *pimg[IDB_PNG_END - IDB_PNG_BEGIN + 1];
 extern HINSTANCE LangresHandle;
 
 class UiModuleItem : public UiIconButton{
 public:
-	UiModuleItem(CModuleBase* obj, int nID) : UiIconButton() {
-		this->SetText(obj->GetModuleName());
+	UiModuleItem(CPluginBase* obj, int nID) : UiIconButton() {
+		this->SetText(obj->GetName());
 		this->SetImage(obj->GetIconImage());
 		this->SetID(nID);
 	}
@@ -46,7 +46,7 @@ Ui_MainWnd::Ui_MainWnd(){
 }
 
 Ui_MainWnd::~Ui_MainWnd(){
-	::UnLoadModules(true);
+	::UnLoadPlugins(true);
 }
 
 BOOL Ui_MainWnd::OnInitDialog() {
@@ -84,7 +84,7 @@ void Ui_MainWnd::DelayShow(){
     dbg_printf("main: %04x\n",m_hWnd);
 }
 
-void Ui_MainWnd::AppendModule(CModuleBase *obj){
+void Ui_MainWnd::AppendModule(CPluginBase *obj){
 	UiModuleItem *item = new UiModuleItem(obj,IDC_MODULE_BEGIN + module_cnt);
 	item->SetPos(30 + 110 * (module_cnt%4), 10 + 140 * (module_cnt / 4), 90, 90+25);
 	m_ScrollWin.AddChild(item);
@@ -96,7 +96,8 @@ void Ui_MainWnd::AppendModule(CModuleBase *obj){
 void Ui_MainWnd::ShowModules(){
     PostMessageW(MZ_MW_REQ_CHANGE_TITLE,IDS_MODULE_LOADING,(LPARAM)(MzGetInstanceHandle()));
 	DateTime::waitms(1);
-	::LoadModulesWithCallback(reinterpret_cast<void*>(this),&Ui_MainWnd::static_callback);
+	::LoadPlugins(L"modules",L"mol",L"modules_createOjbect",
+		reinterpret_cast<void*>(this),&Ui_MainWnd::static_callback);
     PostMessageW(MZ_MW_REQ_CHANGE_TITLE,IDS_TTL_MAIN,(LPARAM)(MzGetInstanceHandle()));
 	DateTime::waitms(1);
 }
@@ -108,8 +109,8 @@ LRESULT Ui_MainWnd::MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam) {
 void Ui_MainWnd::OnMzCommand(WPARAM wParam, LPARAM lParam) {
     UINT_PTR id = LOWORD(wParam);
 	if(id >= IDC_MODULE_BEGIN && id <= IDC_MODULE_BEGIN + 16){
-		MODULE_ST module = m_arrModuleObj.at(id - IDC_MODULE_BEGIN);
-		//m_Title.SetText(module.pObj->GetModuleName());
+		PLUGIN module = GetPlugin(id - IDC_MODULE_BEGIN);
+		//m_Title.SetText(module.pObj->GetName());
 		module.pObj->Show(m_hWnd);
         PostMessageW(MZ_MW_REQ_CHANGE_TITLE,IDS_TTL_MAIN,(LPARAM)MzGetInstanceHandle());
 	}

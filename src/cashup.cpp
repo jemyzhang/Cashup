@@ -8,12 +8,12 @@ using namespace cMzCommon;
 #ifdef _DEBUG
 #pragma comment(lib,"mzfc.lib")
 #pragma comment(lib,"ccMzCommon.lib")
-#pragma comment(lib,"moduleloaderd.lib")
+#pragma comment(lib,"pluginloaderd.lib")
 #pragma comment(lib,"common-uid.lib")
 #else
 #pragma comment(lib,"mzfc.lib")
 #pragma comment(lib,"cMzCommon.lib")
-#pragma comment(lib,"moduleloader.lib")
+#pragma comment(lib,"pluginloader.lib")
 #pragma comment(lib,"common-ui.lib")
 #endif
 

@@ -35,18 +35,18 @@ ImagingHelper* BackupPlugin::GetIconImage() {
 	return PluginGetResImage(IDB_PNG_ICON); 
 }
 
-LPWSTR BackupPlugin::GetPluginName() {
+LPCTSTR BackupPlugin::GetName() {
 	if(name == 0){
 		C::newstrcpy(&name,PluginGetLngResString(IDS_MODULE_NAME).C_Str());
 	}
     return name;
 }
 
-LPWSTR BackupPlugin::GetPluginIntro() {
+LPCTSTR BackupPlugin::GetIntro() {
 	return L"Backup Database";
 }
 
-LPWSTR BackupPlugin::GetPluginAuthor() {
+LPCTSTR BackupPlugin::GetAuthor() {
 	return L"JEMYZHANG";
 }
 
@@ -62,7 +62,7 @@ void BackupPlugin::Show(HWND m_hWnd) {
 	dlg.DoModal();
 }
 
-PluginVersion_st BackupPlugin::GetPluginVersion(){
+PluginVersion_st BackupPlugin::GetVersion(){
 	PluginVersion_st ver = { 1, 0, 0 };
 	return ver;
 }

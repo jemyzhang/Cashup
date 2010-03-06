@@ -6,6 +6,9 @@
 #include <UiImage.h>
 #include "ui_main.h"
 
+#include <vector>
+using std::vector;
+
 // Main window derived from CMzWndEx
 
 class Ui_NaviWnd : public CMzWndEx {

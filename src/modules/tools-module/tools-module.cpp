@@ -30,21 +30,21 @@ BOOL WINAPI modules_createOjbect(void **pobj){
 }
 
 ImagingHelper* ToolsModule::GetIconImage() {
-	return ModuleGetResImage(IDB_PNG_ICON); 
+	return PluginGetResImage(IDB_PNG_ICON); 
 }
 
-LPCTSTR ToolsModule::GetModuleName() {
+LPCTSTR ToolsModule::GetName() {
 	if(name == 0){
-		C::newstrcpy(&name,ModuleGetLngResString(IDS_MODULE_NAME).C_Str());
+		C::newstrcpy(&name,PluginGetLngResString(IDS_MODULE_NAME).C_Str());
 	}
     return name;
 }
 
-LPWSTR ToolsModule::GetModuleIntro() {
+LPCTSTR ToolsModule::GetIntro() {
 	return L"External Tools";
 }
 
-LPWSTR ToolsModule::GetModuleAuthor() {
+LPCTSTR ToolsModule::GetAuthor() {
 	return L"JEMYZHANG";
 }
 
@@ -65,7 +65,7 @@ void ToolsModule::Show(HWND m_hWnd) {
 	}
 }
 
-ModuleVersion_st ToolsModule::GetModuleVersion(){
-	ModuleVersion_st ver = { 1, 0, 0 };
+PluginVersion_st ToolsModule::GetVersion(){
+	PluginVersion_st ver = { 1, 0, 0 };
 	return ver;
 }
